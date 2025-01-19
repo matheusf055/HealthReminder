@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HealthReminder.Domain.Users;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using RememberMedication.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

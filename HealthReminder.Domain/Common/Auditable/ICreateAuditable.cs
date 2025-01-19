@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RememberMedication.Domain.Common.Auditable
+namespace HealthReminder.Domain.Common.Auditable
 {
     public interface ICreateAuditable
     {
