@@ -1,8 +1,8 @@
-﻿using RememberMedication.Domain.Common.Auditable;
-using RememberMedication.Domain.Common.Entities;
-using RememberMedication.Domain.Common.Security;
+﻿using HealthReminder.Domain.Common.Auditable;
+using HealthReminder.Domain.Common.Entities;
+using HealthReminder.Domain.Common.Security;
 
-namespace RememberMedication.Domain.Users
+namespace HealthReminder.Domain.Users
 {
     public class User : EntityBase, IUpdateAuditable
     {
@@ -29,7 +29,7 @@ namespace RememberMedication.Domain.Users
         #region auditable
         public DateTime CreateDate { get; set; }
         public Guid? UpdateUserId { get; set; }
-        public string? UpdateUser { get; set; }
+        public string UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
         #endregion
 

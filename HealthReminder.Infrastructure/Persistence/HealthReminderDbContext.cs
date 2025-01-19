@@ -1,6 +1,8 @@
-﻿using HealthReminder.Infrastructure.Persistence.Configurations;
+﻿using HealthReminder.Domain.MedicalAppointments;
+using HealthReminder.Domain.Medications;
+using HealthReminder.Domain.Users;
+using HealthReminder.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
-using RememberMedication.Domain.Users;
 
 namespace HealthReminder.Infrastructure.Persistence
 {
@@ -12,12 +14,16 @@ namespace HealthReminder.Infrastructure.Persistence
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Medication> Medications { get; set; }
+        public DbSet <MedicalAppointment> MedicalAppointments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new MedicationConfiguration());
+            modelBuilder.ApplyConfiguration(new MedicalAppointmentConfiguration());
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace RememberMedication.Domain.Common.Security
+namespace HealthReminder.Domain.Common.Security
 {
     public class HashAlgorithm
     {

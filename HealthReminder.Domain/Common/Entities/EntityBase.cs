@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RememberMedication.Domain.Common.Entities
+namespace HealthReminder.Domain.Common.Entities
 {
     public abstract class EntityBase
     {
