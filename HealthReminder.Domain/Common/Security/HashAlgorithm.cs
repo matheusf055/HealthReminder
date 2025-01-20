@@ -19,23 +19,5 @@ namespace HealthReminder.Domain.Common.Security
                 return sb.ToString();
             }
         }
-
-        public static string GenerateSalt()
-        {
-            var saltBytes = new byte[16];
-            RandomNumberGenerator.Fill(saltBytes);
-            return Convert.ToBase64String(saltBytes);
-        }
-
-        public static string HashPasswordWithSalt(string password, string salt, int iterations = 10000)
-        {
-            var saltedPassword = password + salt;
-            var hash = SHA256(saltedPassword);
-            for (int i = 0; i < iterations; i++)
-            {
-                hash = SHA256(hash);
-            }
-            return hash;
-        }
     }
 }
