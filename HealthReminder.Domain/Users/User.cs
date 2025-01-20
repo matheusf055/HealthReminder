@@ -1,6 +1,7 @@
 ﻿using HealthReminder.Domain.Common.Auditable;
 using HealthReminder.Domain.Common.Entities;
 using HealthReminder.Domain.Common.Security;
+using System.Security.Cryptography;
 
 namespace HealthReminder.Domain.Users
 {
@@ -16,8 +17,8 @@ namespace HealthReminder.Domain.Users
                 throw new ArgumentException("As senhas não coincidem.");
             }
 
-            Salt = HashAlgorithm.GenerateSalt();
-            Password = HashAlgorithm.HashPasswordWithSalt(password, Salt);
+            Salt = GenerateSalt();
+            Password = HashPasswordWithSalt(password, Salt);
             CreateDate = DateTime.UtcNow;
         }
 
@@ -35,8 +36,26 @@ namespace HealthReminder.Domain.Users
 
         public bool VerifyPassword(string providedPassword)
         {
-            var hashedProvidedPassword = HashAlgorithm.HashPasswordWithSalt(providedPassword, Salt);
+            var hashedProvidedPassword = HashPasswordWithSalt(providedPassword, Salt);
             return Password == hashedProvidedPassword;
+        }
+
+        public static string GenerateSalt()
+        {
+            var saltBytes = new byte[16];
+            RandomNumberGenerator.Fill(saltBytes);
+            return Convert.ToBase64String(saltBytes);
+        }
+
+        public static string HashPasswordWithSalt(string password, string salt, int iterations = 10000)
+        {
+            var saltedPassword = password + salt;
+            var hash = Common.Security.HashAlgorithm.SHA256(saltedPassword);
+            for (int i = 0; i < iterations; i++)
+            {
+                hash = Common.Security.HashAlgorithm.SHA256(hash);
+            }
+            return hash;
         }
     }
 }
