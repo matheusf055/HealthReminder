@@ -8,11 +8,13 @@ namespace HealthReminder.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthAppService _authService;
+        private readonly IAuthAppService _authAppService;
+        private readonly ITokenAppService _tokenAppService;
 
-        public AuthController(IAuthAppService authService)
+        public AuthController(IAuthAppService authService, ITokenAppService tokenAppService)
         {
-            _authService = authService;
+            _authAppService = authService;
+            _tokenAppService = tokenAppService;
         }
 
         [HttpPost("register")]
@@ -20,7 +22,7 @@ namespace HealthReminder.Api.Controllers
         {
             try
             {
-                await _authService.RegisterAsync(registerUserDto);
+                await _authAppService.RegisterAsync(registerUserDto);
                 return Ok("Usuário registrado com sucesso.");
             }
             catch (Exception ex)
@@ -34,8 +36,9 @@ namespace HealthReminder.Api.Controllers
         {
             try
             {
-                var user = await _authService.LoginAsync(loginUserDto);
-                return Ok(user); //TODO Implementar JWT
+                var user = await _authAppService.LoginAsync(loginUserDto);
+                var token = _tokenAppService.GenerateToken(user);
+                return Ok(new {Token = token}); 
             }
             catch (Exception ex)
             {
