@@ -12,7 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\HealthReminder.AppService\HealthReminder.AppService.csproj" />
+    <ProjectReference Include="..\HealthReminder.Infrastructure\HealthReminder.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

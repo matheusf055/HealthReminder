@@ -7,6 +7,8 @@ namespace HealthReminder.Domain.Users
 {
     public class User : EntityBase, IUpdateAuditable
     {
+        public User() { }
+
         public User(string name, string email, string password, string confirmPassword)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "Digite seu nome");
@@ -30,7 +32,7 @@ namespace HealthReminder.Domain.Users
         #region auditable
         public DateTime CreateDate { get; set; }
         public Guid? UpdateUserId { get; set; }
-        public string UpdateUser { get; set; }
+        public string? UpdateUser { get; set; }
         public DateTime? UpdateDate { get; set; }
         #endregion
 
@@ -40,14 +42,14 @@ namespace HealthReminder.Domain.Users
             return Password == hashedProvidedPassword;
         }
 
-        public static string GenerateSalt()
+        private static string GenerateSalt()
         {
             var saltBytes = new byte[16];
             RandomNumberGenerator.Fill(saltBytes);
             return Convert.ToBase64String(saltBytes);
         }
 
-        public static string HashPasswordWithSalt(string password, string salt, int iterations = 10000)
+        private static string HashPasswordWithSalt(string password, string salt, int iterations = 10000)
         {
             var saltedPassword = password + salt;
             var hash = Common.Security.HashAlgorithm.SHA256(saltedPassword);
