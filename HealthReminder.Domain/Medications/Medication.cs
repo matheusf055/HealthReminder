@@ -12,11 +12,14 @@ namespace HealthReminder.Domain.Medications
             Name = name ?? throw new ArgumentNullException(nameof(name), "Digite o nome do medicamento");
             Dosage = dosage ?? throw new ArgumentNullException(nameof(dosage), "Digite a dosagem do medicamento");
             Frequency = frequency ?? throw new ArgumentNullException(nameof(frequency), "Digite a frequência do medicamento");
+
             TotalPills = totalPills;
             AlertThreshold = totalPills * 0.2;
+
             CreateUserId = createUserId;
-            CreateUser = createUser ?? throw new ArgumentNullException(nameof(createUser), "Digite o nome do usuário que criou");
+            CreateUser = createUser;
             CreateDate = DateTime.UtcNow;
+
             IsLowStockAlertSent = false;
         }
 
@@ -27,7 +30,6 @@ namespace HealthReminder.Domain.Medications
         public double AlertThreshold { get; set; }
         public bool IsLowStockAlertSent { get; set; }
         public Guid UserId { get; set; }
-        public User User { get; set; }
 
         #region auditable
         public Guid CreateUserId { get; set; }

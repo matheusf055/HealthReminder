@@ -13,8 +13,9 @@ namespace HealthReminder.Domain.MedicalAppointments
             Specialty = specialty;
             AppointmentDateTime = appointmentDateTime;
             Location = location ?? throw new ArgumentNullException(nameof(location), "Digite o local da consulta");
+
             CreateUserId = createUserId;
-            CreateUser = createUser ?? throw new ArgumentNullException(nameof(createUser), "Digite o nome do usuário que criou");
+            CreateUser = createUser;
             CreateDate = DateTime.UtcNow;
         }
 
@@ -23,7 +24,6 @@ namespace HealthReminder.Domain.MedicalAppointments
         public DateTime AppointmentDateTime { get; set; }
         public string Location { get; set; }
         public Guid UserId { get; set; }
-        public User User { get; set; }
 
         #region auditable
         public Guid CreateUserId { get; set; }
