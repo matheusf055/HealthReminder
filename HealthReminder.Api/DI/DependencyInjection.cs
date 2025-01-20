@@ -16,6 +16,7 @@ namespace HealthReminder.Api.DI
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthAppService, AuthAppService>();
+            services.AddScoped<ITokenAppService, TokenAppService>();
         }
     }
 }
