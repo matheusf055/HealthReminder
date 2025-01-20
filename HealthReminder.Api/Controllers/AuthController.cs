@@ -8,9 +8,9 @@ namespace HealthReminder.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthAppService _authService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthAppService authService)
         {
             _authService = authService;
         }

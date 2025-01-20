@@ -5,7 +5,7 @@ using HealthReminder.Domain.Users.Repositories;
 
 namespace HealthReminder.AppService.Users
 {
-    public class AuthAppService : IAuthService
+    public class AuthAppService : IAuthAppService
     {
         private readonly IUserRepository _userRepository;
 
