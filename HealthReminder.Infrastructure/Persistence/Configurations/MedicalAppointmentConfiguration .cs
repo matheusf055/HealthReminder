@@ -1,4 +1,5 @@
 ﻿using HealthReminder.Domain.MedicalAppointments;
+using HealthReminder.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -42,15 +43,10 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
 
             builder.Property(ma => ma.UpdateDate);
 
-            builder.HasOne(ma => ma.User)
-                .WithMany()  
-                .HasForeignKey(ma => ma.UserId)
-                .OnDelete(DeleteBehavior.Restrict);  
-
-            builder.HasOne(ma => ma.User)
-                .WithMany()
-                .HasForeignKey(ma => ma.CreateUserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne<User>()
+               .WithMany()
+               .HasForeignKey(ma => ma.CreateUserId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
