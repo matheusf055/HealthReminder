@@ -1,9 +1,4 @@
-using HealthReminder.AppService.Interfaces;
-using HealthReminder.AppService.Users;
-using HealthReminder.Domain.Users.Repositories;
-using HealthReminder.Infrastructure.Persistence;
-using HealthReminder.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
+using HealthReminder.Api.DI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<HealthReminderDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAuthService, AuthAppService>();
+DependencyInjection.Configure(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 
