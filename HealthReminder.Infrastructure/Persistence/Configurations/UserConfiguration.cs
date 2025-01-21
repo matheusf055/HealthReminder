@@ -38,13 +38,6 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
 
             builder.Property(u => u.CreateDate)
                 .IsRequired();
-
-            builder.Property(u => u.UpdateUserId);
-
-            builder.Property(u => u.UpdateUser)
-                .HasMaxLength(255);
-
-            builder.Property(u => u.UpdateDate);
         }
     }
 }

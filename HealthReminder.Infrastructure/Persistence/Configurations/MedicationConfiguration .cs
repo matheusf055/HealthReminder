@@ -43,13 +43,6 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
             builder.Property(m => m.CreateDate)
                 .IsRequired();
 
-            builder.Property(m => m.UpdateUserId);
-
-            builder.Property(m => m.UpdateUser)
-                .HasMaxLength(255);
-
-            builder.Property(m => m.UpdateDate);
-
             builder.HasOne<User>()
                .WithMany()
                .HasForeignKey(m => m.UserId)
