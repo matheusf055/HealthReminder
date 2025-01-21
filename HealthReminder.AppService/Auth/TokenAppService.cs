@@ -1,4 +1,4 @@
-﻿using HealthReminder.AppService.Interfaces;
+﻿using HealthReminder.AppService.Interfaces.Auth;
 using HealthReminder.Domain.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;

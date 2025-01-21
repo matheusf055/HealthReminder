@@ -7,7 +7,9 @@ namespace HealthReminder.Domain.Medications
 {
     public class Medication : EntityBase, IUpdateAuditable, ICreateAuditable
     {
-        public Medication(string name, string dosage, string frequency, int totalPills, Guid createUserId, string createUser)
+        public Medication() { }
+
+        public Medication(string name, string dosage, string frequency, int totalPills, Guid userId, Guid createUserId, string createUser)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "Digite o nome do medicamento");
             Dosage = dosage ?? throw new ArgumentNullException(nameof(dosage), "Digite a dosagem do medicamento");
@@ -20,7 +22,8 @@ namespace HealthReminder.Domain.Medications
             CreateUser = createUser;
             CreateDate = DateTime.UtcNow;
 
-            IsLowStockAlertSent = false;
+            UserId = userId;
+            IsLowStockAlertSent = ShouldAlertForRefill();
         }
 
         public string Name { get; set; }
@@ -40,9 +43,22 @@ namespace HealthReminder.Domain.Medications
         public DateTime? UpdateDate { get; set; }
         #endregion
 
-        public bool ShouldAlertForRefill()
+        private bool ShouldAlertForRefill()
         {
             return TotalPills <= AlertThreshold;
+        }
+
+        public void TakePill()
+        {
+            if (TotalPills > 0)
+            {
+                TotalPills--;
+                IsLowStockAlertSent = ShouldAlertForRefill();
+            } 
+            else 
+            {
+                throw new InvalidOperationException("Não há mais pílulas disponíveis.");
+            }
         }
     }
 }

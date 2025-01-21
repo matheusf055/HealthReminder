@@ -2,7 +2,7 @@
 using HealthReminder.AppService.Users.DTOs;
 using HealthReminder.Domain.Users;
 
-namespace HealthReminder.AppService.Interfaces
+namespace HealthReminder.AppService.Interfaces.Auth
 {
     public interface IAuthAppService
     {
