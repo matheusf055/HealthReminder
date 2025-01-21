@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace HealthReminder.Domain.Users
 {
-    public class User : EntityBase, IUpdateAuditable
+    public class User : EntityBase
     {
         public User() { }
 
@@ -27,13 +27,7 @@ namespace HealthReminder.Domain.Users
         public string Email { get; set; }
         public string Password { get; set; }
         public string Salt { get; private set; }
-
-        #region auditable
         public DateTime CreateDate { get; set; }
-        public Guid? UpdateUserId { get; set; }
-        public string? UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
-        #endregion
 
         public bool VerifyPassword(string providedPassword)
         {

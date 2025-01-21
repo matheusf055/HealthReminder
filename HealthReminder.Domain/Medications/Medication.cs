@@ -5,7 +5,7 @@ using System;
 
 namespace HealthReminder.Domain.Medications
 {
-    public class Medication : EntityBase, IUpdateAuditable, ICreateAuditable
+    public class Medication : EntityBase, ICreateAuditable
     {
         public Medication() { }
 
@@ -38,9 +38,6 @@ namespace HealthReminder.Domain.Medications
         public Guid CreateUserId { get; set; }
         public string CreateUser { get; set; }
         public DateTime CreateDate { get; set; }
-        public Guid? UpdateUserId { get; set; }
-        public string? UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
         #endregion
 
         private bool ShouldAlertForRefill()

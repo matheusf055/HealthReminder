@@ -5,7 +5,7 @@ using System;
 
 namespace HealthReminder.Domain.MedicalAppointments
 {
-    public class MedicalAppointment : EntityBase, IUpdateAuditable, ICreateAuditable
+    public class MedicalAppointment : EntityBase, ICreateAuditable
     {
         public MedicalAppointment(string doctorName, string specialty, DateTime appointmentDateTime, string location, Guid createUserId, string createUser)
         {
@@ -29,9 +29,6 @@ namespace HealthReminder.Domain.MedicalAppointments
         public Guid CreateUserId { get; set; }
         public string CreateUser { get; set; }
         public DateTime CreateDate { get; set; }
-        public Guid? UpdateUserId { get; set; }
-        public string? UpdateUser { get; set; }
-        public DateTime? UpdateDate { get; set; }
         #endregion
     }
 }
