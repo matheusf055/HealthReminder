@@ -1,8 +1,13 @@
-﻿using HealthReminder.AppService.Interfaces;
+﻿using HealthReminder.AppService.Interfaces.Auth;
+using HealthReminder.AppService.Interfaces.Medication;
+using HealthReminder.AppService.Medication;
 using HealthReminder.AppService.Users;
+using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Medications.Repositories;
 using HealthReminder.Domain.Users.Repositories;
 using HealthReminder.Infrastructure.Persistence;
-using HealthReminder.Infrastructure.Repositories;
+using HealthReminder.Infrastructure.Repositories.Medication;
+using HealthReminder.Infrastructure.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthReminder.Api.DI
@@ -16,7 +21,22 @@ namespace HealthReminder.Api.DI
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthAppService, AuthAppService>();
+            services.AddScoped<IMedicationAppService, MedicationAppService>();
+            services.AddScoped<IMedicationRepository, MedicationRepository>();
             services.AddScoped<ITokenAppService, TokenAppService>();
+
+            services.AddScoped<IUser>(provider =>
+            {
+                var httpContextAccessor = provider.GetRequiredService<IHttpContextAccessor>();
+                var user = httpContextAccessor.HttpContext?.User;
+                if (user == null)
+                {
+                    throw new UnauthorizedAccessException("Usuário não autenticado.");
+                }
+                return new UserToken(user);
+            });
+
+            services.AddHttpContextAccessor();
         }
     }
 }

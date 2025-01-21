@@ -1,8 +1,8 @@
-﻿using HealthReminder.AppService.Interfaces;
+﻿using HealthReminder.AppService.Interfaces.Auth;
 using HealthReminder.AppService.Users.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HealthReminder.Api.Controllers
+namespace HealthReminder.Api.Controllers.Auth
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -38,7 +38,7 @@ namespace HealthReminder.Api.Controllers
             {
                 var user = await _authAppService.LoginAsync(loginUserDto);
                 var token = _tokenAppService.GenerateToken(user);
-                return Ok(new {Token = token}); 
+                return Ok(new { Token = token });
             }
             catch (Exception ex)
             {

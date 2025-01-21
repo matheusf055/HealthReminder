@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthReminder.AppService.Interfaces
+namespace HealthReminder.AppService.Interfaces.Auth
 {
     public interface ITokenAppService
     {
