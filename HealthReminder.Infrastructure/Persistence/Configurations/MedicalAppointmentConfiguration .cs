@@ -37,6 +37,11 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(ma => ma.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne<User>()
                .WithMany()
                .HasForeignKey(ma => ma.CreateUserId)
                .OnDelete(DeleteBehavior.Restrict);
