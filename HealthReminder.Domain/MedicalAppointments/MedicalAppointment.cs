@@ -7,12 +7,14 @@ namespace HealthReminder.Domain.MedicalAppointments
 {
     public class MedicalAppointment : EntityBase, ICreateAuditable
     {
-        public MedicalAppointment(string doctorName, string specialty, DateTime appointmentDateTime, string location, Guid createUserId, string createUser)
+        public MedicalAppointment(string doctorName, string specialty, DateTime appointmentDateTime, string location, Guid userId, Guid createUserId, string createUser)
         {
             DoctorName = doctorName ?? throw new ArgumentNullException(nameof(doctorName), "Digite o nome do médico");
             Specialty = specialty;
             AppointmentDateTime = appointmentDateTime;
             Location = location ?? throw new ArgumentNullException(nameof(location), "Digite o local da consulta");
+
+            UserId = userId;
 
             CreateUserId = createUserId;
             CreateUser = createUser;

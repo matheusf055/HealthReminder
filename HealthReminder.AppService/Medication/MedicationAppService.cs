@@ -111,6 +111,9 @@ namespace HealthReminder.AppService.Medication
         {
             if (user == null) throw new ArgumentNullException("user");
 
+            var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
+            if (medication == null) return;
+
             await _medicationRepository.DeleteMedicationAsync(id, user.Id);
         }
     }
