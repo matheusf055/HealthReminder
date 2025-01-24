@@ -25,29 +25,15 @@ namespace HealthReminder.Api.Controllers.Medication
         [HttpPost]
         public async Task<IActionResult> AddMedicationAsync(CreateMedicationDto createMedicationDto)
         {
-            try
-            {
-                await _medicationAppService.AddMedicationAsync(createMedicationDto, _user);
-                return Ok("Medicação criada com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _medicationAppService.AddMedicationAsync(createMedicationDto, _user);
+            return Ok("Medicação criada com sucesso.");
         }
 
         [HttpPost("{id}/take")]
         public async Task<IActionResult> TakeMedication(Guid id)
         {
-            try
-            {
-                await _medicationAppService.TakeMedicationAsync(id, _user);
-                return Ok("Medicação registrada como tomada.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _medicationAppService.TakeMedicationAsync(id, _user);
+            return Ok("Medicação registrada como tomada.");
         }
 
         [HttpGet]
@@ -71,29 +57,15 @@ namespace HealthReminder.Api.Controllers.Medication
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMedicationAsync(Guid id, UpdateMedicationDto updateMedicationDto)
         {
-            try
-            {
-                await _medicationAppService.UpdateMedicationAsync(id, updateMedicationDto, _user);
-                return Ok("Medicação atualizada com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _medicationAppService.UpdateMedicationAsync(id, updateMedicationDto, _user);
+            return Ok("Medicação atualizada com sucesso.");
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMedicationAsync(Guid id)
         {
-            try
-            {
-                await _medicationAppService.DeleteMedicationAsync(id, _user);
-                return Ok("Medicação deletada com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _medicationAppService.DeleteMedicationAsync(id, _user);
+            return Ok("Medicação deletada com sucesso.");
         }
     }
 }

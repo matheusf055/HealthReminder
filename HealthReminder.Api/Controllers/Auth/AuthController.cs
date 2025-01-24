@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HealthReminder.Api.Controllers.Auth
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthAppService _authAppService;
@@ -20,30 +20,16 @@ namespace HealthReminder.Api.Controllers.Auth
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
         {
-            try
-            {
-                await _authAppService.RegisterAsync(registerUserDto);
-                return Ok("Usuário registrado com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _authAppService.RegisterAsync(registerUserDto);
+            return Ok("Usuário registrado com sucesso.");
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDto loginUserDto)
         {
-            try
-            {
-                var user = await _authAppService.LoginAsync(loginUserDto);
-                var token = _tokenAppService.GenerateToken(user);
-                return Ok(new { Token = token });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var user = await _authAppService.LoginAsync(loginUserDto);
+            var token = _tokenAppService.GenerateToken(user);
+            return Ok(new { Token = token });
         }
     }
 }
