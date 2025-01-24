@@ -20,7 +20,8 @@ namespace HealthReminder.AppService.Medication
 
         public async Task AddMedicationAsync(CreateMedicationDto createMedicationDto, IUser user)
         {
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (createMedicationDto == null) throw new ArgumentNullException(nameof(createMedicationDto));
 
             var medication = new Domain.Medications.Medication(
                 createMedicationDto.Name,
@@ -37,10 +38,10 @@ namespace HealthReminder.AppService.Medication
 
         public async Task TakeMedicationAsync(Guid id, IUser user)
         {
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) return;
+            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
 
             medication.TakePill();
             await _medicationRepository.UpdateMedicationAsync(medication);
@@ -48,9 +49,10 @@ namespace HealthReminder.AppService.Medication
 
         public async Task<MedicationDto> GetMedicationByIdAsync(Guid id, IUser user)
         {
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
+            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
 
             return new MedicationDto
             {
@@ -67,9 +69,11 @@ namespace HealthReminder.AppService.Medication
 
         public async Task<List<MedicationDto>> GetMedicationsByUserIdAsync(Guid userId, IUser user)
         {
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medications = await _medicationRepository.GetMedicationsByUserIdAsync(userId);
+            if (medications == null || medications.Count == 0) throw new KeyNotFoundException($"No medications found for user with ID {userId}.");
+
             var medicationDtos = new List<MedicationDto>();
 
             foreach (var medication in medications)
@@ -92,10 +96,11 @@ namespace HealthReminder.AppService.Medication
 
         public async Task UpdateMedicationAsync(Guid id, UpdateMedicationDto updateMedicationDto, IUser user)
         {
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (updateMedicationDto == null) throw new ArgumentNullException(nameof(updateMedicationDto));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) return;
+            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
 
             medication.Name = updateMedicationDto.Name;
             medication.Dosage = updateMedicationDto.Dosage;
@@ -109,10 +114,10 @@ namespace HealthReminder.AppService.Medication
 
         public async Task DeleteMedicationAsync(Guid id, IUser user)
         {
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) return;
+            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
 
             await _medicationRepository.DeleteMedicationAsync(id, user.Id);
         }

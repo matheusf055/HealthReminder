@@ -8,18 +8,12 @@ namespace HealthReminder.Domain.Users
     {
         public User() { }
 
-        public User(string name, string email, string password, string confirmPassword)
+        public User(string name, string email, string password)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name), "Digite seu nome");
             Email = email ?? throw new ArgumentNullException(nameof(email), "Digite seu email");
-
-            if (password != confirmPassword)
-            {
-                throw new ArgumentException("As senhas não coincidem.");
-            }
-
             Salt = GenerateSalt();
-            Password = HashPasswordWithSalt(password, Salt);
+            Password = HashPasswordWithSalt(password, Salt) ?? throw new ArgumentNullException(nameof(name), "Digite sua senha");
             CreateDate = DateTime.UtcNow;
         }
 

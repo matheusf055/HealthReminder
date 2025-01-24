@@ -30,7 +30,7 @@ namespace HealthReminder.AppService.MedicalApointment
                 createMedicalAppointmentDto.Location,
                 user.Id,
                 user.Id,
-                user.Name 
+                user.Name
             );
 
             await _medicalAppointmentRepository.AddMedicalAppointmentAsync(medicalApoint);
@@ -41,6 +41,7 @@ namespace HealthReminder.AppService.MedicalApointment
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
+            if (medicalAppointment == null) throw new KeyNotFoundException($"Medical appointment with ID {id} not found.");
 
             return new MedicalAppointmentDto
             {
@@ -57,9 +58,10 @@ namespace HealthReminder.AppService.MedicalApointment
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentsByUserIdAsync(userId);
+            var medicalAppointments = await _medicalAppointmentRepository.GetMedicalAppointmentsByUserIdAsync(userId);
+            if (medicalAppointments == null || medicalAppointments.Count == 0) throw new KeyNotFoundException($"No medical appointments found for user with ID {userId}.");
 
-            return medicalAppointment.Select(x => new MedicalAppointmentDto
+            return medicalAppointments.Select(x => new MedicalAppointmentDto
             {
                 Id = x.Id,
                 DoctorName = x.DoctorName,
@@ -73,9 +75,10 @@ namespace HealthReminder.AppService.MedicalApointment
         public async Task UpdateMedicalAppointmentAsync(Guid id, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (updateMedicalAppointmentDto == null) throw new ArgumentNullException(nameof(updateMedicalAppointmentDto));
 
             var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
-            if (medicalAppointment == null) return;
+            if (medicalAppointment == null) throw new KeyNotFoundException($"Medical appointment with ID {id} not found.");
 
             medicalAppointment.DoctorName = updateMedicalAppointmentDto.DoctorName;
             medicalAppointment.Specialty = updateMedicalAppointmentDto.Specialty;
@@ -90,7 +93,7 @@ namespace HealthReminder.AppService.MedicalApointment
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
-            if (medicalAppointment == null) return;
+            if (medicalAppointment == null) throw new KeyNotFoundException($"Medical appointment with ID {id} not found.");
 
             await _medicalAppointmentRepository.DeleteMedicalAppointmentAsync(id, user.Id);
         }
