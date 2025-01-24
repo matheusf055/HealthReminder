@@ -3,13 +3,6 @@ using HealthReminder.AppService.MedicalApointment.DTOs;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.MedicalAppointments;
 using HealthReminder.Domain.MedicalAppointments.Repositories;
-using HealthReminder.Domain.Medications;
-using HealthReminder.Domain.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthReminder.AppService.MedicalApointment
 {
