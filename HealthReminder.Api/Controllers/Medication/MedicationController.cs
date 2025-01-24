@@ -23,7 +23,7 @@ namespace HealthReminder.Api.Controllers.Medication
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateMedicationDto createMedicationDto)
+        public async Task<IActionResult> AddMedicationAsync(CreateMedicationDto createMedicationDto)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace HealthReminder.Api.Controllers.Medication
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetMedicationByIdAsync(Guid id)
         {
             var medication = await _medicationAppService.GetMedicationByIdAsync(id, _user);
             if (medication == null)
@@ -69,7 +69,7 @@ namespace HealthReminder.Api.Controllers.Medication
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, UpdateMedicationDto updateMedicationDto)
+        public async Task<IActionResult> UpdateMedicationAsync(Guid id, UpdateMedicationDto updateMedicationDto)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace HealthReminder.Api.Controllers.Medication
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteMedicationAsync(Guid id)
         {
             try
             {
