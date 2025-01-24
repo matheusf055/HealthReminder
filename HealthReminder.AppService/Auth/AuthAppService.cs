@@ -19,16 +19,10 @@ namespace HealthReminder.AppService.Users
             if (registerUserDto == null) throw new ArgumentNullException(nameof(registerUserDto));
 
             var existingUser = await _userRepository.GetUserByEmailAsync(registerUserDto.Email);
-            if (existingUser != null)
-            {
-                throw new ArgumentException("Email já registrado");
-            }
-
-            if (registerUserDto.Password != registerUserDto.ConfirmPassword)
-            {
-                throw new ArgumentException("As senhas não coincidem.");
-            }
-
+            if (existingUser != null) throw new ArgumentException("Email já registrado");
+            
+            if (registerUserDto.Password != registerUserDto.ConfirmPassword) throw new ArgumentException("As senhas não coincidem.");
+            
             var user = new User(registerUserDto.Name, registerUserDto.Email, registerUserDto.Password);
             await _userRepository.AddUserAsync(user);
         }
@@ -38,11 +32,8 @@ namespace HealthReminder.AppService.Users
             if (loginUserDto == null) throw new ArgumentNullException(nameof(loginUserDto));
 
             var user = await _userRepository.GetUserByEmailAsync(loginUserDto.Email);
-            if (user == null || !user.VerifyPassword(loginUserDto.Password))
-            {
-                throw new UnauthorizedAccessException("Email ou senha inválidos.");
-            }
-
+            if (user == null || !user.VerifyPassword(loginUserDto.Password)) throw new UnauthorizedAccessException("Email ou senha inválidos.");
+            
             return user;
         }
     }
