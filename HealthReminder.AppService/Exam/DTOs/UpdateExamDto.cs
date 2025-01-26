@@ -9,6 +9,8 @@ namespace HealthReminder.AppService.Exam.DTOs
 {
     public class UpdateExamDto
     {
+        public Guid Id { get; set; }
+
         [Required(ErrorMessage = "Nome do exame é obrigatório.")]
         public string Name { get; set; }
 
@@ -16,6 +18,8 @@ namespace HealthReminder.AppService.Exam.DTOs
         public DateTime ScheduledDate { get; set; }
 
         [Required(ErrorMessage = "Data de busca do exame é obrigatório.")]
-        public DateTime SeekExam { get; set; }
+        public DateTime SeekExamDate { get; set; }
+
+        public Guid MedicalAppointmentId { get; set; }
     }
 }

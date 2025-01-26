@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthReminder.AppService.Exam.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace HealthReminder.AppService.MedicalApointment.DTOs
         public DateTime AppointmentDateTime { get; set; }
         public string Location { get; set; }
         public Guid UserId { get; set; }
+        public List<ExamDto> Exams { get; set; } = new List<ExamDto>();
     }
 }

@@ -20,7 +20,7 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
             builder.Property(e => e.ScheduledDate)
                 .IsRequired();
 
-            builder.Property(e => e.SeekExam)
+            builder.Property(e => e.SeekExamDate)
                 .IsRequired();
 
             builder.Property(e => e.UserId)

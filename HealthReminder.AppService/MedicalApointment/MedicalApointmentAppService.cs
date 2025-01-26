@@ -1,4 +1,5 @@
-﻿using HealthReminder.AppService.Interfaces.MedicalAppointment;
+﻿using HealthReminder.AppService.Exam.DTOs;
+using HealthReminder.AppService.Interfaces.MedicalAppointment;
 using HealthReminder.AppService.MedicalApointment.DTOs;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.MedicalAppointments;
@@ -51,6 +52,15 @@ namespace HealthReminder.AppService.MedicalApointment
                 AppointmentDateTime = medicalAppointment.AppointmentDateTime,
                 Location = medicalAppointment.Location,
                 UserId = medicalAppointment.UserId,
+                Exams = medicalAppointment.Exams.Select(exam => new ExamDto
+                {
+                    Id = exam.Id,
+                    Name = exam.Name,
+                    ScheduledDate = exam.ScheduledDate,
+                    SeekExamDate = exam.SeekExamDate,
+                    UserId = exam.UserId,
+                    MedicalAppointmentId = exam.MedicalAppointmentId
+                }).ToList()
             };
         }
 
@@ -58,9 +68,9 @@ namespace HealthReminder.AppService.MedicalApointment
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointments = await _medicalAppointmentRepository.GetMedicalAppointmentsByUserIdAsync(userId);
+            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentsByUserIdAsync(userId);
 
-            return medicalAppointments.Select(x => new MedicalAppointmentDto
+            return medicalAppointment.Select(x => new MedicalAppointmentDto
             {
                 Id = x.Id,
                 DoctorName = x.DoctorName,
@@ -68,6 +78,15 @@ namespace HealthReminder.AppService.MedicalApointment
                 AppointmentDateTime = x.AppointmentDateTime,
                 Location = x.Location,
                 UserId = x.UserId,
+                Exams = x.Exams.Select(exam => new ExamDto
+                {
+                    Id = exam.Id,
+                    Name = exam.Name,
+                    ScheduledDate = exam.ScheduledDate,
+                    UserId = exam.UserId,
+                    MedicalAppointmentId = exam.MedicalAppointmentId,
+                    SeekExamDate = exam.SeekExamDate
+                }).ToList()
             }).ToList();
         }
 

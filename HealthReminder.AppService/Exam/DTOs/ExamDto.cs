@@ -11,7 +11,8 @@ namespace HealthReminder.AppService.Exam.DTOs
         public Guid Id { get; set; }
         public string Name { get; set; }
         public DateTime ScheduledDate { get; set; }
-        public DateTime SeekExam { get; set; }
+        public DateTime SeekExamDate { get; set; }
         public Guid UserId { get; set; }
+        public Guid? MedicalAppointmentId { get; set; }
     }
 }
