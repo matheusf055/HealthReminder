@@ -40,7 +40,12 @@ public class GlobalExceptionHandlerMiddleware
             case ArgumentNullException argumentNullException:
                 statusCode = HttpStatusCode.BadRequest;
                 errorCode = "E400";
-                message = "Requisição inválida: " + argumentNullException.Message;
+                message = argumentNullException.Message;
+                break;
+            case ArgumentException argumentException:
+                statusCode = HttpStatusCode.BadRequest;
+                errorCode = "E400";
+                message = argumentException.Message;
                 break;
             case UnauthorizedAccessException unauthorizedAccessException:
                 statusCode = HttpStatusCode.Unauthorized;
@@ -50,7 +55,7 @@ public class GlobalExceptionHandlerMiddleware
             case KeyNotFoundException keyNotFoundException:
                 statusCode = HttpStatusCode.NotFound;
                 errorCode = "E404";
-                message = "Recurso não encontrado: " + keyNotFoundException.Message;
+                message = keyNotFoundException.Message;
                 break;
             case NotFoundException notFoundException:
                 statusCode = HttpStatusCode.NotFound;

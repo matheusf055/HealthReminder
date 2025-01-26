@@ -41,7 +41,7 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
+            if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
             medication.TakePill();
             await _medicationRepository.UpdateMedicationAsync(medication);
@@ -52,7 +52,7 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
+            if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
             return new MedicationDto
             {
@@ -72,7 +72,6 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medications = await _medicationRepository.GetMedicationsByUserIdAsync(userId);
-            if (medications == null || medications.Count == 0) throw new KeyNotFoundException($"No medications found for user with ID {userId}.");
 
             return medications.Select(medication => new MedicationDto
             {
@@ -93,7 +92,7 @@ namespace HealthReminder.AppService.Medication
             if (updateMedicationDto == null) throw new ArgumentNullException(nameof(updateMedicationDto));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
+            if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
             medication.Name = updateMedicationDto.Name;
             medication.Dosage = updateMedicationDto.Dosage;
@@ -110,7 +109,7 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(id, user.Id);
-            if (medication == null) throw new KeyNotFoundException($"Medication with ID {id} not found.");
+            if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
             await _medicationRepository.DeleteMedicationAsync(id, user.Id);
         }
