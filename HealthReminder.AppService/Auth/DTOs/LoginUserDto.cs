@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-public class LoginUserDto
+namespace HealthReminder.AppService.Auth.DTOs
 {
-    [Required(ErrorMessage = "O email é obrigatório.")]
-    [EmailAddress(ErrorMessage = "Email inválido.")]
-    public string Email { get; set; }
-
-    [Required(ErrorMessage = "A senha é obrigatória.")]
-    public string Password { get; set; }
+    public class LoginUserDto
+    {
+        [Required(ErrorMessage = "O email é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Email inválido.")]
+        public string Email { get; set; }
+        [Required(ErrorMessage = "A senha é obrigatória.")]
+        public string Password { get; set; }
+    }
 }

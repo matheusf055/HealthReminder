@@ -1,5 +1,5 @@
 ﻿using HealthReminder.AppService.Interfaces.Auth;
-using HealthReminder.AppService.Users.DTOs;
+using HealthReminder.AppService.Auth.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthReminder.Api.Controllers.Auth

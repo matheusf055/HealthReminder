@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using HealthReminder.AppService.Users.DTOs;
+using HealthReminder.AppService.Auth.DTOs;
 using HealthReminder.Domain.Users;
 
 namespace HealthReminder.AppService.Interfaces.Auth
