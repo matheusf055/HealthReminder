@@ -36,6 +36,11 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
             builder.Property(ma => ma.CreateDate)
                 .IsRequired();
 
+            builder.HasMany(ma => ma.Exams)  
+                .WithOne(e => e.MedicalAppointment)  
+                .HasForeignKey(e => e.MedicalAppointmentId)  
+                .OnDelete(DeleteBehavior.Restrict);  
+
             builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(ma => ma.UserId)

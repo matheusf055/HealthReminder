@@ -1,5 +1,4 @@
-﻿using HealthReminder.Domain.Common.Auditable;
-using HealthReminder.Domain.Common.Entities;
+﻿using HealthReminder.Domain.Common.Entities;
 using System.Security.Cryptography;
 
 namespace HealthReminder.Domain.Users
