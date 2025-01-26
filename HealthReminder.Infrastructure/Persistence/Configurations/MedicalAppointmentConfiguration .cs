@@ -39,7 +39,7 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
             builder.HasMany(ma => ma.Exams)  
                 .WithOne(e => e.MedicalAppointment)  
                 .HasForeignKey(e => e.MedicalAppointmentId)  
-                .OnDelete(DeleteBehavior.Restrict);  
+                .OnDelete(DeleteBehavior.SetNull);  
 
             builder.HasOne<User>()
                 .WithMany()

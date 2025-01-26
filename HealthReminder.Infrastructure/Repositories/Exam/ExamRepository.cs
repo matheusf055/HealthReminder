@@ -1,0 +1,54 @@
+﻿using HealthReminder.Domain.Exams.Repositories;
+using HealthReminder.Domain.MedicalAppointments;
+using HealthReminder.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HealthReminder.Infrastructure.Repositories.Exam
+{
+    public class ExamRepository : IExamRepository
+    {
+        private readonly HealthReminderDbContext _context;
+
+        public ExamRepository(HealthReminderDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task AddExamAsync(Domain.Exams.Exam exam)
+        {
+            await _context.Exams.AddAsync(exam);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Domain.Exams.Exam> GetExamByIdAsync(Guid id, Guid userId)
+        {
+            return await _context.Exams.FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
+        }
+
+        public async Task<List<Domain.Exams.Exam>> GetExamsByUserIdAsync(Guid userId)
+        {
+            return await _context.Exams.Where(e => e.UserId == userId).ToListAsync();
+        }
+
+        public async Task UpdateExamAsync(Domain.Exams.Exam exam)
+        {
+            _context.Exams.Update(exam);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteExamByIdAsync(Guid id, Guid userId)
+        {
+            var exam = await _context.Exams.FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
+            if (exam != null)
+            {
+                _context.Exams.Remove(exam);
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
+}
