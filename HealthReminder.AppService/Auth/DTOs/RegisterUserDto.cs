@@ -1,12 +1,18 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace HealthReminder.AppService.Users.DTOs
+public class RegisterUserDto
 {
-    public class RegisterUserDto
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
-    }
+    [Required(ErrorMessage = "Nome é obrigatório.")]
+    public string Name { get; set; }
+
+    [Required(ErrorMessage = "Email é obrigatório.")]
+    [EmailAddress(ErrorMessage = "Email inválido.")]
+    public string Email { get; set; }
+
+    [Required(ErrorMessage = "Senha é obrigatória.")]
+    public string Password { get; set; }
+
+    [Required(ErrorMessage = "Confirmação de senha é obrigatória.")]
+    [Compare("Password", ErrorMessage = "As senhas não coincidem.")]
+    public string ConfirmPassword { get; set; }
 }
