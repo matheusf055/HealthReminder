@@ -1,12 +1,6 @@
 ﻿using HealthReminder.Domain.Exams.Repositories;
-using HealthReminder.Domain.MedicalAppointments;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealthReminder.Infrastructure.Repositories.Exam
 {

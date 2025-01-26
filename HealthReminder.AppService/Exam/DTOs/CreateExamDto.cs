@@ -16,6 +16,8 @@ namespace HealthReminder.AppService.Exam.DTOs
         public DateTime ScheduledDate { get; set; }
 
         [Required(ErrorMessage = "Data de busca do exame é obrigatório.")]
-        public DateTime SeekExam { get; set; }
+        public DateTime SeekExamDate { get; set; }
+
+        public Guid? MedicalAppointmentId { get; set; }
     }
 }

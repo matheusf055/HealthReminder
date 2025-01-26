@@ -8,12 +8,14 @@ namespace HealthReminder.Domain.Exams
     {
         public Exam() { }
 
-        public Exam(string name, DateTime scheduledDate, DateTime seekExam, Guid userId, Guid createUserId, string createUser)
+        public Exam(string name, DateTime scheduledDate, DateTime seekExamDate, Guid userId, Guid? medicalAppointmentId, Guid createUserId, string createUser)
         {
             Name = name;
             ScheduledDate = scheduledDate;
-            SeekExam = seekExam;
+            SeekExamDate = seekExamDate;
+
             UserId = userId;
+            MedicalAppointmentId = medicalAppointmentId;
 
             CreateUserId = createUserId;
             CreateUser = createUser;
@@ -22,7 +24,7 @@ namespace HealthReminder.Domain.Exams
 
         public string Name { get; set; }
         public DateTime ScheduledDate { get; set; }
-        public DateTime SeekExam { get; set; }
+        public DateTime SeekExamDate { get; set; }
         public Guid UserId { get; set; }
 
         public Guid? MedicalAppointmentId { get; set; }
