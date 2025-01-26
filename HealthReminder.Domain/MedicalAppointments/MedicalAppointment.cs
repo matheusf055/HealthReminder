@@ -9,10 +9,10 @@ namespace HealthReminder.Domain.MedicalAppointments
     {
         public MedicalAppointment(string doctorName, string specialty, DateTime appointmentDateTime, string location, Guid userId, Guid createUserId, string createUser)
         {
-            DoctorName = doctorName ?? throw new ArgumentNullException(nameof(doctorName), "Digite o nome do médico");
+            DoctorName = doctorName;
             Specialty = specialty;
             AppointmentDateTime = appointmentDateTime;
-            Location = location ?? throw new ArgumentNullException(nameof(location), "Digite o local da consulta");
+            Location = location;
 
             UserId = userId;
 

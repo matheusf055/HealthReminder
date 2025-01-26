@@ -11,9 +11,9 @@ namespace HealthReminder.Domain.Medications
 
         public Medication(string name, string dosage, string frequency, int totalPills, Guid userId, Guid createUserId, string createUser)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name), "Digite o nome do medicamento");
-            Dosage = dosage ?? throw new ArgumentNullException(nameof(dosage), "Digite a dosagem do medicamento");
-            Frequency = frequency ?? throw new ArgumentNullException(nameof(frequency), "Digite a frequência do medicamento");
+            Name = name;
+            Dosage = dosage;
+            Frequency = frequency;
 
             TotalPills = totalPills;
             AlertThreshold = totalPills * 0.2;
@@ -21,8 +21,8 @@ namespace HealthReminder.Domain.Medications
             CreateUserId = createUserId;
             CreateUser = createUser;
             CreateDate = DateTime.UtcNow;
-
             UserId = userId;
+
             IsLowStockAlertSent = ShouldAlertForRefill();
         }
 
