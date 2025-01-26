@@ -74,7 +74,6 @@ namespace HealthReminder.AppService.MedicalApointment
         public async Task UpdateMedicalAppointmentAsync(Guid id, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (updateMedicalAppointmentDto == null) throw new ArgumentNullException(nameof(updateMedicalAppointmentDto));
 
             var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");

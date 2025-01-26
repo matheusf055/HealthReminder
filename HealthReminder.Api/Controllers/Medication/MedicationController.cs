@@ -37,7 +37,7 @@ namespace HealthReminder.Api.Controllers.Medication
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllByUser()
+        public async Task<IActionResult> GetMedicationsByUserIdAsync()
         {
             var medications = await _medicationAppService.GetMedicationsByUserIdAsync(_user.Id, _user);
             return Ok(medications);
@@ -47,10 +47,6 @@ namespace HealthReminder.Api.Controllers.Medication
         public async Task<IActionResult> GetMedicationByIdAsync(Guid id)
         {
             var medication = await _medicationAppService.GetMedicationByIdAsync(id, _user);
-            if (medication == null)
-            {
-                return NotFound();
-            }
             return Ok(medication);
         }
 
