@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using HealthReminder.AppService.Interfaces.Medication;
 using HealthReminder.AppService.Medication.DTOs;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.Medications.Repositories;
-using HealthReminder.Domain.Users;
 
 namespace HealthReminder.AppService.Medication
 {
@@ -74,24 +74,17 @@ namespace HealthReminder.AppService.Medication
             var medications = await _medicationRepository.GetMedicationsByUserIdAsync(userId);
             if (medications == null || medications.Count == 0) throw new KeyNotFoundException($"No medications found for user with ID {userId}.");
 
-            var medicationDtos = new List<MedicationDto>();
-
-            foreach (var medication in medications)
+            return medications.Select(medication => new MedicationDto
             {
-                medicationDtos.Add(new MedicationDto
-                {
-                    Id = medication.Id,
-                    Name = medication.Name,
-                    Dosage = medication.Dosage,
-                    Frequency = medication.Frequency,
-                    TotalPills = medication.TotalPills,
-                    AlertThreshold = medication.AlertThreshold,
-                    IsLowStockAlertSent = medication.IsLowStockAlertSent,
-                    UserId = userId
-                });
-            }
-
-            return medicationDtos;
+                Id = medication.Id,
+                Name = medication.Name,
+                Dosage = medication.Dosage,
+                Frequency = medication.Frequency,
+                TotalPills = medication.TotalPills,
+                AlertThreshold = medication.AlertThreshold,
+                IsLowStockAlertSent = medication.IsLowStockAlertSent,
+                UserId = userId
+            }).ToList();
         }
 
         public async Task UpdateMedicationAsync(Guid id, UpdateMedicationDto updateMedicationDto, IUser user)
