@@ -1,7 +1,5 @@
 ﻿using HealthReminder.Domain.Common.Auditable;
 using HealthReminder.Domain.Common.Entities;
-using HealthReminder.Domain.Users;
-using System;
 
 namespace HealthReminder.Domain.Medications
 {

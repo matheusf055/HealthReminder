@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.MedicalAppointments;
+﻿using HealthReminder.Domain.Exams;
+using HealthReminder.Domain.MedicalAppointments;
 using HealthReminder.Domain.Medications;
 using HealthReminder.Domain.Users;
 using HealthReminder.Infrastructure.Persistence.Configurations;
@@ -16,6 +17,7 @@ namespace HealthReminder.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Medication> Medications { get; set; }
         public DbSet <MedicalAppointment> MedicalAppointments { get; set; }
+        public DbSet<Exam> Exams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +26,7 @@ namespace HealthReminder.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new MedicationConfiguration());
             modelBuilder.ApplyConfiguration(new MedicalAppointmentConfiguration());
+            modelBuilder.ApplyConfiguration(new ExamConfiguration());
         }
     }
 }
