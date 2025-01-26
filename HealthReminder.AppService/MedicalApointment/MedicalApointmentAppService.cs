@@ -20,12 +20,10 @@ namespace HealthReminder.AppService.MedicalApointment
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (createMedicalAppointmentDto == null) throw new ArgumentNullException(nameof(createMedicalAppointmentDto));
 
-            var specialty = createMedicalAppointmentDto.Specialty ?? string.Empty;
-
             var medicalApoint = new MedicalAppointment
             (
                 createMedicalAppointmentDto.DoctorName,
-                specialty,
+                createMedicalAppointmentDto.Specialty,
                 createMedicalAppointmentDto.AppointmentDateTime,
                 createMedicalAppointmentDto.Location,
                 user.Id,
