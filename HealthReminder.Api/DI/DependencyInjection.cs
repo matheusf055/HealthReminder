@@ -27,7 +27,7 @@ namespace HealthReminder.Api.DI
             services.AddDbContext<HealthReminderDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IAuthAppService, AuthAppService>();
             services.AddScoped<IMedicationAppService, MedicationAppService>();
             services.AddScoped<IMedicationRepository, MedicationRepository>();
