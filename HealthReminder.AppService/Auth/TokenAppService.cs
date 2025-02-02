@@ -14,17 +14,10 @@ namespace HealthReminder.AppService.Users
 {
     public class TokenAppService : ITokenAppService
     {
-        private readonly IConfiguration _configuration;
-
-        public TokenAppService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            var key = Encoding.ASCII.GetBytes("CT3/2Xo+XD3F3tjbZyYcMzSY4UbDvvCCTS/sIahGuBs=");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
