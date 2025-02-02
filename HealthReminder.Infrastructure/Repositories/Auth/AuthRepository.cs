@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthReminder.Infrastructure.Repositories.User
 {
-    public class UserRepository : IUserRepository
+    public class AuthRepository : IAuthRepository
     {
         private readonly HealthReminderDbContext _context;
 
-        public UserRepository(HealthReminderDbContext context)
+        public AuthRepository(HealthReminderDbContext context)
         {
             _context = context;
         }
