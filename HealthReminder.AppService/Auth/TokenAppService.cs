@@ -33,7 +33,6 @@ namespace HealthReminder.AppService.Users
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.Name),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             };
 
