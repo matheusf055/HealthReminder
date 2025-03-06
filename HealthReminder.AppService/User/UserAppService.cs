@@ -19,7 +19,7 @@ namespace HealthReminder.AppService.User
             _userRepository = userRepository;
         }
 
-        public async Task<UserDetailsDto> GetUserDetailsDto(Guid id, IUser user)
+        public async Task<UserDetailsDto> GetUserDetails(Guid id, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
