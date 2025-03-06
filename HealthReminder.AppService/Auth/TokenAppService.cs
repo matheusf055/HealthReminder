@@ -1,5 +1,4 @@
 ﻿using HealthReminder.AppService.Interfaces.Auth;
-using HealthReminder.Domain.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -21,7 +20,7 @@ namespace HealthReminder.AppService.Users
             _configuration = configuration;
         }
 
-        public string GenerateToken(User user)
+        public string GenerateToken(Domain.Users.User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
