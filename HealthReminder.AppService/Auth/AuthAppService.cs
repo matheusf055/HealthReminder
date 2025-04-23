@@ -10,11 +10,13 @@ namespace HealthReminder.AppService.Auth
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IJwtTokenProvider _jwtTokenProvider;
 
-        public AuthAppService(IUserRepository authRepository, IPasswordHasher passwordHasher)
+        public AuthAppService(IUserRepository authRepository, IPasswordHasher passwordHasher, IJwtTokenProvider jwtTokenProvider)
         {
             _userRepository = authRepository;
             _passwordHasher = passwordHasher;
+            _jwtTokenProvider = jwtTokenProvider;
         }
 
         public async Task RegisterAsync(RegisterUserDto registerUserDto)
@@ -30,7 +32,7 @@ namespace HealthReminder.AppService.Auth
             await _userRepository.AddUserAsync(user);
         }
 
-        public async Task<Users> LoginAsync(LoginUserDto loginUserDto)
+        public async Task<string> LoginAsync(LoginUserDto loginUserDto)
         {
             if (loginUserDto == null) throw new ArgumentNullException(nameof(loginUserDto));
 
@@ -40,7 +42,8 @@ namespace HealthReminder.AppService.Auth
             var userPassword = _passwordHasher.VerifyPassword(loginUserDto.Password, user.Password);
             if (userPassword != true) throw new UnauthorizedAccessException("Email ou senha inválidos.");
 
-            return user;
+            var token = _jwtTokenProvider.GenerateToken(user);
+            return token;
         }
     }
 }

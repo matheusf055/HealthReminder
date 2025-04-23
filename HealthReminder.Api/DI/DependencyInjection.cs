@@ -43,7 +43,7 @@ namespace HealthReminder.Api.DI
             services.AddScoped<IMedicalAppointmentRepository, MedicalAppointmentRepository>();
             services.AddScoped<IExamAppService, ExamAppService>();
             services.AddScoped<IExamRepository, ExamRepository>();
-            services.AddScoped<ITokenAppService, TokenAppService>();
+            services.AddScoped<IJwtTokenProvider, JwtTokenProvider>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

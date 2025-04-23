@@ -6,7 +6,7 @@ namespace HealthReminder.AppService.Interfaces.Auth
 {
     public interface IAuthAppService
     {
-        Task<Users> LoginAsync(LoginUserDto loginUserDto);
+        Task<string> LoginAsync(LoginUserDto loginUserDto);
         Task RegisterAsync(RegisterUserDto registerUserDto);
     }
 }

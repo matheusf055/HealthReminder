@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthReminder.AppService.Interfaces.Auth
+namespace HealthReminder.Domain.Common.Security
 {
-    public interface ITokenAppService
+    public interface IJwtTokenProvider
     {
-        string GenerateToken(Users user);
+        string GenerateToken(Domain.Users.Users user);
     }
 }
