@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.Users;
+﻿using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Users;
 using HealthReminder.Domain.Users.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ namespace HealthReminder.Infrastructure.Repositories.User
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Domain.Users.User> GetUserByIdAsync(Guid id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<Domain.Users.User> GetUserByEmailAsync(string email)
