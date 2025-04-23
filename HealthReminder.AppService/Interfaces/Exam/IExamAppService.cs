@@ -10,10 +10,10 @@ namespace HealthReminder.AppService.Interfaces.Exam
 {
     public interface IExamAppService
     {
-        Task AddExamAsync(CreateExamDto createExamDto, IUser user);
-        Task<ExamDto> GetExamByIdAsync(Guid id, IUser user);
+        Task AddExamAsync(Guid userId, CreateExamDto createExamDto, IUser user);
+        Task<ExamDto> GetExamByIdAsync(Guid userId, Guid examId, IUser user);
         Task<List<ExamDto>> GetExamsByUserIdAsync(Guid userId, IUser user);
-        Task UpdateExamAsync(Guid id, UpdateExamDto updateExamDto, IUser user);
-        Task DeleteExamByIdAsync(Guid id, Guid userId, IUser user);
+        Task UpdateExamAsync(Guid userId, Guid examId, UpdateExamDto updateExamDto, IUser user);
+        Task DeleteExamByIdAsync(Guid userId, Guid examId, IUser user);
     }
 }

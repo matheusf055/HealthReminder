@@ -9,7 +9,7 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
 {
     [ApiController]
     [Authorize]
-    [Route("api/medicalAppointment")]
+    [Route("api/{userId}/appointments")]
     public class MedicalAppointmentController : ControllerBase
     {
         private readonly IMedicalAppointmentAppService _medicalAppointmentAppService;
@@ -22,37 +22,39 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMedicalAppointmentAsync(CreateMedicalAppointmentDto createMedicalAppointmentDto)
+        public async Task<IActionResult> AddMedicalAppointmentAsync([FromRoute] Guid userId, [FromBody] CreateMedicalAppointmentDto createMedicalAppointmentDto)
         {
-            await _medicalAppointmentAppService.AddMedicalAppointmentAsync(createMedicalAppointmentDto, _user);
+            await _medicalAppointmentAppService.AddMedicalAppointmentAsync(userId, createMedicalAppointmentDto, _user);
             return Ok("Consulta criada com sucesso.");
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllByUser()
+        public async Task<IActionResult> GetAllByUser([FromRoute] Guid userId)
         {
-            var medicalAppointments = await _medicalAppointmentAppService.GetMedicalAppointmentsByUserIdAsync(_user.Id, _user);
+            var medicalAppointments = await _medicalAppointmentAppService.GetMedicalAppointmentsByUserIdAsync(userId, _user);
             return Ok(medicalAppointments);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetMedicalAppointmentByIdAsync(Guid id)
+        [HttpGet("{appointmentId}")]
+        public async Task<IActionResult> GetMedicalAppointmentByIdAsync([FromRoute] Guid userId, [FromRoute] Guid appointmentId)
         {
-            var medicalAppointment = await _medicalAppointmentAppService.GetMedicalAppointmentByIdAsync(id, _user);
+            var medicalAppointment = await _medicalAppointmentAppService.GetMedicalAppointmentByIdAsync(userId, appointmentId, _user);
             return Ok(medicalAppointment);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMedicalAppointmentAsync(Guid id, [FromBody] UpdateMedicalAppointmentDto updateMedicalAppointmentDto)
+        [HttpPut("{appointmentId}")]
+        public async Task<IActionResult> UpdateMedicalAppointmentAsync([FromRoute] Guid userId,
+            [FromRoute] Guid appointmentId,
+            [FromBody] UpdateMedicalAppointmentDto updateMedicalAppointmentDto)
         {
-            await _medicalAppointmentAppService.UpdateMedicalAppointmentAsync(id, updateMedicalAppointmentDto, _user);
+            await _medicalAppointmentAppService.UpdateMedicalAppointmentAsync(userId, appointmentId, updateMedicalAppointmentDto, _user);
             return Ok("Consulta atualizada com sucesso.");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMedicalAppointmentAsync(Guid id)
+        [HttpDelete("{appointmentId}")]
+        public async Task<IActionResult> DeleteMedicalAppointmentAsync([FromRoute] Guid userId, [FromRoute] Guid appointmentId)
         {
-            await _medicalAppointmentAppService.DeleteMedicalAppointmentAsync(id, _user);
+            await _medicalAppointmentAppService.DeleteMedicalAppointmentAsync(userId, appointmentId, _user);
             return Ok("Consulta deletada com sucesso.");
         }
     }

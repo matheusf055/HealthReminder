@@ -3,8 +3,10 @@ using HealthReminder.AppService.Interfaces.Auth;
 using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.AppService.Interfaces.MedicalAppointment;
 using HealthReminder.AppService.Interfaces.Medication;
+using HealthReminder.AppService.Interfaces.User;
 using HealthReminder.AppService.MedicalApointment;
 using HealthReminder.AppService.Medication;
+using HealthReminder.AppService.User;
 using HealthReminder.AppService.Users;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.Exams.Repositories;
@@ -27,7 +29,8 @@ namespace HealthReminder.Api.DI
             services.AddDbContext<HealthReminderDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserAppService, UserAppService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthAppService, AuthAppService>();
             services.AddScoped<IMedicationAppService, MedicationAppService>();
             services.AddScoped<IMedicationRepository, MedicationRepository>();
