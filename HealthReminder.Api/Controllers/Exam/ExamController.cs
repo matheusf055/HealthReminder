@@ -3,6 +3,7 @@ using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace HealthReminder.Api.Controllers.Exam
 {
@@ -21,6 +22,16 @@ namespace HealthReminder.Api.Controllers.Exam
         }
 
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Adiciona um novo exame",
+            Description = "Cria um novo registro de exame para o usuário"
+        )]
+        [SwaggerResponse(200, "Exame criado com sucesso")]
+        [SwaggerResponse(400, "Dados inválidos fornecidos")]
+        [SwaggerResponse(401, "Não autorizado")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddExamAsync([FromRoute] Guid userId, [FromBody] CreateExamDto createExamDto)
         {
             await _examAppService.AddExamAsync(userId, createExamDto, _user);
@@ -28,6 +39,14 @@ namespace HealthReminder.Api.Controllers.Exam
         }
 
         [HttpGet]
+        [SwaggerOperation(
+            Summary = "Lista todos os exames do usuário",
+            Description = "Retorna todos os exames cadastrados para o usuário"
+        )]
+        [SwaggerResponse(200, "Lista de exames retornada com sucesso")]
+        [SwaggerResponse(401, "Não autorizado")]
+        [ProducesResponseType(typeof(IEnumerable<ExamDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetExamsByUserIdAsync([FromRoute] Guid userId)
         {
             var exams = await _examAppService.GetExamsByUserIdAsync(userId, _user);
@@ -35,6 +54,16 @@ namespace HealthReminder.Api.Controllers.Exam
         }
 
         [HttpGet("{examId}")]
+        [SwaggerOperation(
+            Summary = "Obtém detalhes de um exame específico",
+            Description = "Retorna os detalhes de um exame específico pelo ID"
+        )]
+        [SwaggerResponse(200, "Detalhes do exame retornados com sucesso")]
+        [SwaggerResponse(401, "Não autorizado")]
+        [SwaggerResponse(404, "Exame não encontrado")]
+        [ProducesResponseType(typeof(ExamDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExamByIdAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
         {
             var exam = await _examAppService.GetExamByIdAsync(userId, examId, _user);
@@ -42,6 +71,18 @@ namespace HealthReminder.Api.Controllers.Exam
         }
 
         [HttpPut("{examId}")]
+        [SwaggerOperation(
+            Summary = "Atualiza um exame",
+            Description = "Atualiza os dados de um exame existente"
+        )]
+        [SwaggerResponse(200, "Exame atualizado com sucesso")]
+        [SwaggerResponse(400, "Dados inválidos fornecidos")]
+        [SwaggerResponse(401, "Não autorizado")]
+        [SwaggerResponse(404, "Exame não encontrado")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId, [FromBody] UpdateExamDto updateExamDto)
         {
             await _examAppService.UpdateExamAsync(userId, examId, updateExamDto, _user);
@@ -49,6 +90,16 @@ namespace HealthReminder.Api.Controllers.Exam
         }
 
         [HttpDelete("{examId}")]
+        [SwaggerOperation(
+            Summary = "Remove um exame",
+            Description = "Deleta um exame do sistema"
+        )]
+        [SwaggerResponse(200, "Exame excluído com sucesso")]
+        [SwaggerResponse(401, "Não autorizado")]
+        [SwaggerResponse(404, "Exame não encontrado")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
         {
             await _examAppService.DeleteExamByIdAsync(userId, examId, _user);
