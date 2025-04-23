@@ -20,7 +20,10 @@ using HealthReminder.Infrastructure.Repositories.MedicalAppointment;
 using HealthReminder.Infrastructure.Repositories.Medication;
 using HealthReminder.Infrastructure.Repositories.User;
 using HealthReminder.Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace HealthReminder.Api.DI
 {
@@ -42,6 +45,19 @@ namespace HealthReminder.Api.DI
             services.AddScoped<IExamRepository, ExamRepository>();
             services.AddScoped<ITokenAppService, TokenAppService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["Jwt:Key"]))
+                    };
+                });
 
             services.AddScoped<IUser>(provider =>
             {
