@@ -32,10 +32,6 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(255);
 
-            builder.Property(u => u.Salt)
-                .IsRequired()
-                .HasMaxLength(255);
-
             builder.Property(u => u.CreateDate)
                 .IsRequired();
         }
