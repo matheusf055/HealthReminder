@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HealthReminder.Infrastructure.Persistence.Configurations
 {
-    public class ExamConfiguration : IEntityTypeConfiguration<Exam>
+    public class ExamConfiguration : IEntityTypeConfiguration<Exams>
     {
-        public void Configure(EntityTypeBuilder<Exam> builder)
+        public void Configure(EntityTypeBuilder<Exams> builder)
         {
             builder.ToTable("Exams")  
                 .HasKey(e => e.Id);  
@@ -41,12 +41,12 @@ namespace HealthReminder.Infrastructure.Persistence.Configurations
                 .HasForeignKey(e => e.MedicalAppointmentId)  
                 .OnDelete(DeleteBehavior.SetNull);  
 
-            builder.HasOne<User>()
+            builder.HasOne<Users>()
                 .WithMany()
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<User>()
+            builder.HasOne<Users>()
                 .WithMany()
                 .HasForeignKey(e => e.CreateUserId)
                 .OnDelete(DeleteBehavior.Restrict);

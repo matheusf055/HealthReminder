@@ -1,4 +1,5 @@
-﻿using HealthReminder.AppService.Exam;
+﻿using HealthReminder.AppService.Auth;
+using HealthReminder.AppService.Exam;
 using HealthReminder.AppService.Interfaces.Auth;
 using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.AppService.Interfaces.MedicalAppointment;
@@ -7,7 +8,6 @@ using HealthReminder.AppService.Interfaces.User;
 using HealthReminder.AppService.MedicalApointment;
 using HealthReminder.AppService.Medication;
 using HealthReminder.AppService.User;
-using HealthReminder.AppService.Users;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.Exams.Repositories;
 using HealthReminder.Domain.MedicalAppointments.Repositories;

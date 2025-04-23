@@ -4,11 +4,11 @@ using HealthReminder.Domain.Exams;
 
 namespace HealthReminder.Domain.MedicalAppointments
 {
-    public class MedicalAppointment : EntityBase, ICreateAuditable
+    public class MedicalAppointments : EntityBase, ICreateAuditable
     {
-        public MedicalAppointment() { }
+        public MedicalAppointments() { }
 
-        public MedicalAppointment(string doctorName, string specialty, DateTime appointmentDateTime, string location, Guid userId, Guid createUserId, string createUser)
+        public MedicalAppointments(string doctorName, string specialty, DateTime appointmentDateTime, string location, Guid userId, Guid createUserId, string createUser)
         {
             DoctorName = doctorName;
             Specialty = specialty;
@@ -27,7 +27,7 @@ namespace HealthReminder.Domain.MedicalAppointments
         public DateTime AppointmentDateTime { get; set; }
         public string Location { get; set; }
         public Guid UserId { get; set; }
-        public ICollection<Exam> Exams { get; set; } = new List<Exam>();
+        public ICollection<Exams.Exams> Exams { get; set; } = new List<Exams.Exams>();
 
         #region auditable
         public Guid CreateUserId { get; set; }

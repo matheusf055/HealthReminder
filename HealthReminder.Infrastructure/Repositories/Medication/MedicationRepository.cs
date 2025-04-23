@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.Medications.Repositories;
+﻿using HealthReminder.Domain.Medications;
+using HealthReminder.Domain.Medications.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,23 +19,23 @@ namespace HealthReminder.Infrastructure.Repositories.Medication
             _context = context;
         }
 
-        public async Task AddMedicationAsync(Domain.Medications.Medication medication)
+        public async Task AddMedicationAsync(Medications medication)
         {
            await _context.Medications.AddAsync(medication);
            await _context.SaveChangesAsync();
         }
 
-        public async Task<Domain.Medications.Medication> GetMedicationByIdAsync(Guid id, Guid userId)
+        public async Task<Medications> GetMedicationByIdAsync(Guid id, Guid userId)
         {
             return await _context.Medications.FirstOrDefaultAsync(m => m.Id == id && m.UserId == userId);
         }
 
-        public async Task<List<Domain.Medications.Medication>> GetMedicationsByUserIdAsync(Guid userId)
+        public async Task<List<Medications>> GetMedicationsByUserIdAsync(Guid userId)
         {
            return await _context.Medications.Where(m => m.UserId == userId).ToListAsync();
         }
 
-        public async Task UpdateMedicationAsync(Domain.Medications.Medication medication)
+        public async Task UpdateMedicationAsync(Medications medication)
         {
             _context.Medications.Update(medication);
             await _context.SaveChangesAsync();

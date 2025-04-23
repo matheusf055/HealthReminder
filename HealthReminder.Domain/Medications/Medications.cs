@@ -3,11 +3,11 @@ using HealthReminder.Domain.Common.Entities;
 
 namespace HealthReminder.Domain.Medications
 {
-    public class Medication : EntityBase, ICreateAuditable
+    public class Medications : EntityBase, ICreateAuditable
     {
-        public Medication() { }
+        public Medications() { }
 
-        public Medication(string name, string dosage, string frequency, int totalPills, Guid userId, Guid createUserId, string createUser)
+        public Medications(string name, string dosage, string frequency, int totalPills, Guid userId, Guid createUserId, string createUser)
         {
             Name = name;
             Dosage = dosage;

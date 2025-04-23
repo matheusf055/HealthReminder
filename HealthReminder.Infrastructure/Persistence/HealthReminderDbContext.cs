@@ -14,10 +14,10 @@ namespace HealthReminder.Infrastructure.Persistence
         {
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Medication> Medications { get; set; }
-        public DbSet <MedicalAppointment> MedicalAppointments { get; set; }
-        public DbSet<Exam> Exams { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Medications> Medications { get; set; }
+        public DbSet <MedicalAppointments> MedicalAppointments { get; set; }
+        public DbSet<Exams> Exams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
