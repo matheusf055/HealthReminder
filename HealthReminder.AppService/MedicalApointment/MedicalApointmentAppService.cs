@@ -16,7 +16,7 @@ namespace HealthReminder.AppService.MedicalApointment
             _medicalAppointmentRepository = medicalAppointmentRepository;
         }
 
-        public async Task AddMedicalAppointmentAsync(CreateMedicalAppointmentDto createMedicalAppointmentDto, IUser user)
+        public async Task AddMedicalAppointmentAsync(Guid userId, CreateMedicalAppointmentDto createMedicalAppointmentDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (createMedicalAppointmentDto == null) throw new ArgumentNullException(nameof(createMedicalAppointmentDto));
@@ -29,7 +29,7 @@ namespace HealthReminder.AppService.MedicalApointment
                 specialty,
                 createMedicalAppointmentDto.AppointmentDateTime,
                 createMedicalAppointmentDto.Location,
-                user.Id,
+                userId,
                 user.Id,
                 user.Name
             );
@@ -37,11 +37,11 @@ namespace HealthReminder.AppService.MedicalApointment
             await _medicalAppointmentRepository.AddMedicalAppointmentAsync(medicalApoint);
         }
 
-        public async Task<MedicalAppointmentDto> GetMedicalAppointmentByIdAsync(Guid id, IUser user)
+        public async Task<MedicalAppointmentDto> GetMedicalAppointmentByIdAsync(Guid userId, Guid appointmentId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
+            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(appointmentId, userId);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
             return new MedicalAppointmentDto
@@ -90,11 +90,11 @@ namespace HealthReminder.AppService.MedicalApointment
             }).ToList();
         }
 
-        public async Task UpdateMedicalAppointmentAsync(Guid id, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
+        public async Task UpdateMedicalAppointmentAsync(Guid userId, Guid appointmentId, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
+            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(appointmentId, userId);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
             medicalAppointment.DoctorName = updateMedicalAppointmentDto.DoctorName;
@@ -105,14 +105,14 @@ namespace HealthReminder.AppService.MedicalApointment
             await _medicalAppointmentRepository.UpdateMedicalAppointmentAsync(medicalAppointment);
         }
 
-        public async Task DeleteMedicalAppointmentAsync(Guid id, IUser user)
+        public async Task DeleteMedicalAppointmentAsync(Guid userId, Guid appointmentId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(id, user.Id);
-            if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada");
+            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(appointmentId, userId);
+            if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
-            await _medicalAppointmentRepository.DeleteMedicalAppointmentAsync(id, user.Id);
+            await _medicalAppointmentRepository.DeleteMedicalAppointmentAsync(appointmentId, userId);
         }
     }
 }

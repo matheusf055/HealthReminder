@@ -18,7 +18,7 @@ namespace HealthReminder.AppService.Exam
             _examRepository = examRepository;
         }
 
-        public async Task AddExamAsync(CreateExamDto createExamDto, IUser user)
+        public async Task AddExamAsync(Guid userId, CreateExamDto createExamDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (createExamDto == null) throw new ArgumentNullException(nameof(createExamDto));
@@ -28,7 +28,7 @@ namespace HealthReminder.AppService.Exam
                     createExamDto.Name,
                     createExamDto.ScheduledDate,
                     createExamDto.SeekExamDate,
-                    user.Id,
+                    userId,
                     createExamDto.MedicalAppointmentId,
                     user.Id,
                     user.Name
@@ -37,11 +37,11 @@ namespace HealthReminder.AppService.Exam
             await _examRepository.AddExamAsync(exam);
         }
 
-        public async Task<ExamDto> GetExamByIdAsync(Guid id, IUser user)
+        public async Task<ExamDto> GetExamByIdAsync(Guid userId, Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(id, user.Id);
+            var exam = await _examRepository.GetExamByIdAsync(examId, userId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
             return new ExamDto
@@ -72,11 +72,11 @@ namespace HealthReminder.AppService.Exam
             }).ToList();
         }
 
-        public async Task UpdateExamAsync(Guid id, UpdateExamDto updateExamDto, IUser user)
+        public async Task UpdateExamAsync(Guid userId, Guid examId, UpdateExamDto updateExamDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(id, user.Id);
+            var exam = await _examRepository.GetExamByIdAsync(examId, userId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
             exam.Name = updateExamDto.Name;
@@ -87,14 +87,14 @@ namespace HealthReminder.AppService.Exam
             await _examRepository.UpdateExamAsync(exam);
         }
 
-        public async Task DeleteExamByIdAsync(Guid id, Guid userId, IUser user)
+        public async Task DeleteExamByIdAsync(Guid userId, Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(id, user.Id);
+            var exam = await _examRepository.GetExamByIdAsync(examId, userId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
-            await _examRepository.DeleteExamByIdAsync(id, user.Id);
+            await _examRepository.DeleteExamByIdAsync(examId, userId);
         }
     }
 }
