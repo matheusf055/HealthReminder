@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HealthReminder.Api.Controllers.User
 {
     [ApiController]
-    [Route("api/user")]
+    [Route("api/users")]
     [Authorize]
     public class UserController : ControllerBase
     {
@@ -20,24 +20,24 @@ namespace HealthReminder.Api.Controllers.User
             _user = user;
         }
 
-        [HttpGet("details")]
-        public async Task<IActionResult> GetUserDetails()
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserDetails([FromRoute] Guid userId)
         {
-            var user = await _userAppService.GetUserDetails(_user.Id, _user);
+            var user = await _userAppService.GetUserDetails(userId, _user);
             return Ok(user);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserDto updateUserDto)
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid userId, [FromBody] UpdateUserDto updateUserDto)
         {
-            await _userAppService.UpdateUserAsync(updateUserDto, _user);
+            await _userAppService.UpdateUserAsync(updateUserDto, userId, _user);
             return Ok("Usuário atualizado com sucesso.");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserAsync(Guid id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid userId)
         {
-            await _userAppService.DeleteUserAsync(id, _user);
+            await _userAppService.DeleteUserAsync(userId, _user);
             return Ok("Usuário deletado com sucesso.");
         }
     }

@@ -7,11 +7,11 @@ namespace HealthReminder.AppService.Interfaces.Medication
 {
     public interface IMedicationAppService
     {
-        Task AddMedicationAsync(CreateMedicationDto createMedicationDto, IUser user);
-        Task TakeMedicationAsync(Guid id, IUser user);
-        Task<MedicationDto> GetMedicationByIdAsync(Guid id, IUser user);
+        Task AddMedicationAsync(Guid userId, CreateMedicationDto createMedicationDto, IUser user);
+        Task TakeMedicationAsync(Guid userId, Guid medicationId, IUser user);
+        Task<MedicationDto> GetMedicationByIdAsync(Guid userId, Guid medicationId, IUser user);
         Task<List<MedicationDto>> GetMedicationsByUserIdAsync(Guid userId, IUser user);
-        Task UpdateMedicationAsync(Guid id, UpdateMedicationDto updateMedicationDto, IUser user);
-        Task DeleteMedicationAsync(Guid id, IUser user);
+        Task UpdateMedicationAsync(Guid userId, Guid medicationId, UpdateMedicationDto updateMedicationDto, IUser user);
+        Task DeleteMedicationAsync(Guid userId, Guid medicationId, IUser user);
     }
 }

@@ -10,8 +10,8 @@ namespace HealthReminder.AppService.Interfaces.User
 {
     public interface IUserAppService
     {
-        Task<UserDetailsDto> GetUserDetails(Guid id, IUser user);
-        Task UpdateUserAsync(UpdateUserDto updateUserDto, IUser user);
-        Task DeleteUserAsync(Guid id, IUser user);
+        Task<UserDetailsDto> GetUserDetails(Guid userId, IUser user);
+        Task UpdateUserAsync(UpdateUserDto updateUserDto, Guid userId, IUser user);
+        Task DeleteUserAsync(Guid userId, IUser user);
     }
 }

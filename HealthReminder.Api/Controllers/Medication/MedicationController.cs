@@ -10,7 +10,7 @@ namespace HealthReminder.Api.Controllers.Medication
 {
     [ApiController]
     [Authorize]
-    [Route("api/medication")]
+    [Route("api/{userId}/medications")]
     public class MedicationController : ControllerBase
     {
         private readonly IMedicationAppService _medicationAppService;
@@ -23,44 +23,48 @@ namespace HealthReminder.Api.Controllers.Medication
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMedicationAsync(CreateMedicationDto createMedicationDto)
+        public async Task<IActionResult> AddMedicationAsync([FromRoute] Guid userId, [FromBody] CreateMedicationDto createMedicationDto)
         {
-            await _medicationAppService.AddMedicationAsync(createMedicationDto, _user);
+            await _medicationAppService.AddMedicationAsync(userId, createMedicationDto, _user);
             return Ok("Medicação criada com sucesso.");
         }
 
-        [HttpPost("{id}/take")]
-        public async Task<IActionResult> TakeMedication(Guid id)
+        [HttpPost("{medicationId}/take")]
+        public async Task<IActionResult> TakeMedication([FromRoute] Guid userId, [FromRoute] Guid medicationId)
         {
-            await _medicationAppService.TakeMedicationAsync(id, _user);
+            await _medicationAppService.TakeMedicationAsync(userId, medicationId, _user);
             return Ok("Medicação registrada como tomada.");
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMedicationsByUserIdAsync()
+        public async Task<IActionResult> GetMedicationsByUserIdAsync([FromRoute] Guid userId)
         {
-            var medications = await _medicationAppService.GetMedicationsByUserIdAsync(_user.Id, _user);
+            var medications = await _medicationAppService.GetMedicationsByUserIdAsync(userId, _user);
             return Ok(medications);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetMedicationByIdAsync(Guid id)
+        [HttpGet("{medicationId}")]
+        public async Task<IActionResult> GetMedicationByIdAsync([FromRoute] Guid userId, [FromRoute] Guid medicationId)
         {
-            var medication = await _medicationAppService.GetMedicationByIdAsync(id, _user);
+            var medication = await _medicationAppService.GetMedicationByIdAsync(userId, medicationId, _user);
             return Ok(medication);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMedicationAsync(Guid id, UpdateMedicationDto updateMedicationDto)
+        [HttpPut("{medicationId}")]
+        public async Task<IActionResult> UpdateMedicationAsync([FromRoute] Guid userId,
+            [FromRoute] Guid medicationId,
+            [FromBody] UpdateMedicationDto updateMedicationDto)
         {
-            await _medicationAppService.UpdateMedicationAsync(id, updateMedicationDto, _user);
+            await _medicationAppService.UpdateMedicationAsync(userId, medicationId, updateMedicationDto, _user);
             return Ok("Medicação atualizada com sucesso.");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMedicationAsync(Guid id)
+        [HttpDelete("{medicationId}")]
+        public async Task<IActionResult> DeleteMedicationAsync(
+            [FromRoute] Guid userId,
+            [FromRoute] Guid medicationId)
         {
-            await _medicationAppService.DeleteMedicationAsync(id, _user);
+            await _medicationAppService.DeleteMedicationAsync(userId, medicationId, _user);
             return Ok("Medicação deletada com sucesso.");
         }
     }
