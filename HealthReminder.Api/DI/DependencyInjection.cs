@@ -9,6 +9,7 @@ using HealthReminder.AppService.MedicalApointment;
 using HealthReminder.AppService.Medication;
 using HealthReminder.AppService.User;
 using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Common.Security;
 using HealthReminder.Domain.Exams.Repositories;
 using HealthReminder.Domain.MedicalAppointments.Repositories;
 using HealthReminder.Domain.Medications.Repositories;
@@ -18,6 +19,7 @@ using HealthReminder.Infrastructure.Repositories.Exam;
 using HealthReminder.Infrastructure.Repositories.MedicalAppointment;
 using HealthReminder.Infrastructure.Repositories.Medication;
 using HealthReminder.Infrastructure.Repositories.User;
+using HealthReminder.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthReminder.Api.DI
@@ -39,6 +41,7 @@ namespace HealthReminder.Api.DI
             services.AddScoped<IExamAppService, ExamAppService>();
             services.AddScoped<IExamRepository, ExamRepository>();
             services.AddScoped<ITokenAppService, TokenAppService>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
 
             services.AddScoped<IUser>(provider =>
             {
