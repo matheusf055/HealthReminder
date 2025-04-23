@@ -9,6 +9,6 @@ namespace HealthReminder.AppService.Interfaces.Auth
 {
     public interface ITokenAppService
     {
-        string GenerateToken(Domain.Users.User user);
+        string GenerateToken(Users user);
     }
 }

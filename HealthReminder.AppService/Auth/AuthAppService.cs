@@ -1,8 +1,9 @@
 ﻿using HealthReminder.AppService.Interfaces.Auth;
+using HealthReminder.Domain.Users;
 using HealthReminder.AppService.Auth.DTOs;
 using HealthReminder.Domain.Users.Repositories;
 
-namespace HealthReminder.AppService.Users
+namespace HealthReminder.AppService.Auth
 {
     public class AuthAppService : IAuthAppService
     {
@@ -20,11 +21,11 @@ namespace HealthReminder.AppService.Users
             var existingUser = await _userRepository.GetUserByEmailAsync(registerUserDto.Email);
             if (existingUser != null) throw new ArgumentException("Email já registrado");
 
-            var user = new Domain.Users.User(registerUserDto.Name, registerUserDto.Email, registerUserDto.Password);
+            var user = new Users(registerUserDto.Name, registerUserDto.Email, registerUserDto.Password);
             await _userRepository.AddUserAsync(user);
         }
 
-        public async Task<Domain.Users.User> LoginAsync(LoginUserDto loginUserDto)
+        public async Task<Users> LoginAsync(LoginUserDto loginUserDto)
         {
             if (loginUserDto == null) throw new ArgumentNullException(nameof(loginUserDto));
 

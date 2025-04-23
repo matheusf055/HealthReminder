@@ -1,6 +1,7 @@
 ﻿using HealthReminder.AppService.Exam.DTOs;
 using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Exams;
 using HealthReminder.Domain.Exams.Repositories;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace HealthReminder.AppService.Exam
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (createExamDto == null) throw new ArgumentNullException(nameof(createExamDto));
 
-            var exam = new Domain.Exams.Exam
+            var exam = new Exams
                 (
                     createExamDto.Name,
                     createExamDto.ScheduledDate,

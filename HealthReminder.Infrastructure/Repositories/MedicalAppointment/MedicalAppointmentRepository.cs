@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.MedicalAppointments.Repositories;
+﻿using HealthReminder.Domain.MedicalAppointments;
+using HealthReminder.Domain.MedicalAppointments.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,20 +19,20 @@ namespace HealthReminder.Infrastructure.Repositories.MedicalAppointment
             _context = context;
         }
 
-        public async Task AddMedicalAppointmentAsync(Domain.MedicalAppointments.MedicalAppointment medicalAppointment)
+        public async Task AddMedicalAppointmentAsync(MedicalAppointments medicalAppointment)
         {
             await _context.MedicalAppointments.AddAsync(medicalAppointment);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Domain.MedicalAppointments.MedicalAppointment> GetMedicalAppointmentByIdAsync(Guid id, Guid userId)
+        public async Task<MedicalAppointments> GetMedicalAppointmentByIdAsync(Guid id, Guid userId)
         {
            return await _context.MedicalAppointments
                 .Include(ma => ma.Exams)
                 .FirstOrDefaultAsync(ma => ma.Id == id && ma.UserId == userId);    
         }
 
-        public async Task<List<Domain.MedicalAppointments.MedicalAppointment>> GetMedicalAppointmentsByUserIdAsync(Guid userId)
+        public async Task<List<MedicalAppointments>> GetMedicalAppointmentsByUserIdAsync(Guid userId)
         {
             return await _context.MedicalAppointments
                 .Include(ma => ma.Exams)
@@ -39,7 +40,7 @@ namespace HealthReminder.Infrastructure.Repositories.MedicalAppointment
                 .ToListAsync();
         }
 
-        public async Task UpdateMedicalAppointmentAsync(Domain.MedicalAppointments.MedicalAppointment medicalAppointment)
+        public async Task UpdateMedicalAppointmentAsync(MedicalAppointments medicalAppointment)
         {
            _context.MedicalAppointments.Update(medicalAppointment);
            await _context.SaveChangesAsync();

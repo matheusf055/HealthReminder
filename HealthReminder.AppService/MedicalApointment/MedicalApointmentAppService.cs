@@ -23,7 +23,7 @@ namespace HealthReminder.AppService.MedicalApointment
 
             var specialty = createMedicalAppointmentDto.Specialty ?? string.Empty;
 
-            var medicalApoint = new MedicalAppointment
+            var medicalApoint = new MedicalAppointments
             (
                 createMedicalAppointmentDto.DoctorName,
                 specialty,

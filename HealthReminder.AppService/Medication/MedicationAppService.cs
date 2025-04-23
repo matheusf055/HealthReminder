@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HealthReminder.AppService.Interfaces.Medication;
 using HealthReminder.AppService.Medication.DTOs;
 using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Medications;
 using HealthReminder.Domain.Medications.Repositories;
 
 namespace HealthReminder.AppService.Medication
@@ -23,7 +24,7 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (createMedicationDto == null) throw new ArgumentNullException(nameof(createMedicationDto));
 
-            var medication = new Domain.Medications.Medication(
+            var medication = new Medications(
                 createMedicationDto.Name,
                 createMedicationDto.Dosage,
                 createMedicationDto.Frequency,

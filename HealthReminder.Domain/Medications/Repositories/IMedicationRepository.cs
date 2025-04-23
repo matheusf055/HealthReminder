@@ -10,10 +10,10 @@ namespace HealthReminder.Domain.Medications.Repositories
 {
     public interface IMedicationRepository
     {
-        Task AddMedicationAsync(Medication medication);
-        Task<Medication> GetMedicationByIdAsync(Guid id, Guid userId);
-        Task<List<Medication>> GetMedicationsByUserIdAsync(Guid userId);
-        Task UpdateMedicationAsync(Medication medication);
+        Task AddMedicationAsync(Medications medication);
+        Task<Medications> GetMedicationByIdAsync(Guid id, Guid userId);
+        Task<List<Medications>> GetMedicationsByUserIdAsync(Guid userId);
+        Task UpdateMedicationAsync(Medications medication);
         Task DeleteMedicationAsync(Guid id, Guid userId);
     }
 }

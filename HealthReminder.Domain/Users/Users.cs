@@ -3,11 +3,11 @@ using System.Security.Cryptography;
 
 namespace HealthReminder.Domain.Users
 {
-    public class User : EntityBase
+    public class Users : EntityBase
     {
-        public User() { }
+        public Users() { }
 
-        public User(string name, string email, string password)
+        public Users(string name, string email, string password)
         {
             Name = name;
             Email = email;

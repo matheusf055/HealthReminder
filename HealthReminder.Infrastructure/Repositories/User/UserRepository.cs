@@ -1,5 +1,4 @@
-﻿using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Users;
+﻿using HealthReminder.Domain.Users;
 using HealthReminder.Domain.Users.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -15,18 +14,18 @@ namespace HealthReminder.Infrastructure.Repositories.User
             _context = context;
         }
 
-        public async Task AddUserAsync(Domain.Users.User user)
+        public async Task AddUserAsync(Users user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Domain.Users.User> GetUserByIdAsync(Guid id)
+        public async Task<Users> GetUserByIdAsync(Guid id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<Domain.Users.User> GetUserByEmailAsync(string email)
+        public async Task<Users> GetUserByEmailAsync(string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null)
@@ -35,7 +34,7 @@ namespace HealthReminder.Infrastructure.Repositories.User
             return user;    
         }
 
-        public async Task<Domain.Users.User> GetUserDetailsAsync(Guid id)
+        public async Task<Users> GetUserDetailsAsync(Guid id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
@@ -44,7 +43,7 @@ namespace HealthReminder.Infrastructure.Repositories.User
             return user;
         }
 
-        public async Task UpdateUserAsync(Domain.Users.User user)
+        public async Task UpdateUserAsync(Users user)
         {
             _context.Users.Update(user);
             await _context.SaveChangesAsync();

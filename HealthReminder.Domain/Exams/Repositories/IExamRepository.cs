@@ -8,10 +8,10 @@ namespace HealthReminder.Domain.Exams.Repositories
 {
     public interface IExamRepository
     {
-        Task AddExamAsync(Exam exam);
-        Task<Exam> GetExamByIdAsync(Guid id, Guid userId);
-        Task<List<Exam>> GetExamsByUserIdAsync(Guid userId);
-        Task UpdateExamAsync(Exam exam);
+        Task AddExamAsync(Exams exam);
+        Task<Exams> GetExamByIdAsync(Guid id, Guid userId);
+        Task<List<Exams>> GetExamsByUserIdAsync(Guid userId);
+        Task UpdateExamAsync(Exams exam);
         Task DeleteExamByIdAsync(Guid id, Guid userId);
     }
 }
