@@ -1,4 +1,4 @@
-﻿using HealthReminder.AppService.Interfaces.Auth;
+﻿using HealthReminder.Domain.Common.Security;
 using HealthReminder.Domain.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -10,13 +10,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthReminder.AppService.Auth
+namespace HealthReminder.Infrastructure.Security
 {
-    public class TokenAppService : ITokenAppService
+    public class JwtTokenProvider : IJwtTokenProvider
     {
         private readonly IConfiguration _configuration;
 
-        public TokenAppService(IConfiguration configuration)
+        public JwtTokenProvider(IConfiguration configuration)
         {
             _configuration = configuration;
         }

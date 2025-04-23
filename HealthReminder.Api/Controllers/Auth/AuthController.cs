@@ -1,6 +1,7 @@
 ﻿using HealthReminder.AppService.Interfaces.Auth;
 using HealthReminder.AppService.Auth.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using HealthReminder.Domain.Common.Security;
 
 namespace HealthReminder.Api.Controllers.Auth
 {
@@ -9,12 +10,10 @@ namespace HealthReminder.Api.Controllers.Auth
     public class AuthController : ControllerBase
     {
         private readonly IAuthAppService _authAppService;
-        private readonly ITokenAppService _tokenAppService;
 
-        public AuthController(IAuthAppService authService, ITokenAppService tokenAppService)
+        public AuthController(IAuthAppService authService)
         {
             _authAppService = authService;
-            _tokenAppService = tokenAppService;
         }
 
         [HttpPost("register")]
@@ -27,9 +26,8 @@ namespace HealthReminder.Api.Controllers.Auth
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDto loginUserDto)
         {
-            var user = await _authAppService.LoginAsync(loginUserDto);
-            var token = _tokenAppService.GenerateToken(user);
-            return Ok(new { Token = token });
+            var token = await _authAppService.LoginAsync(loginUserDto);
+            return Ok(new { token });
         }
     }
 }
