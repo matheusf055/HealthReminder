@@ -20,7 +20,7 @@ namespace HealthReminder.AppService.Medication
             _medicationRepository = medicationRepository;
         }
 
-        public async Task<MedicationDto> AddMedicationAsync(CreateMedicationCommand command, IUser user)
+        public async Task<MedicationDto> Create(CreateMedicationCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -44,7 +44,7 @@ namespace HealthReminder.AppService.Medication
             return dto;
         }
 
-        public async Task TakeMedicationAsync(Guid userId, Guid medicationId, IUser user)
+        public async Task Take(Guid userId, Guid medicationId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -55,7 +55,7 @@ namespace HealthReminder.AppService.Medication
             await _medicationRepository.UpdateMedicationAsync(medication);
         }
 
-        public async Task<MedicationDto> GetMedicationByIdAsync(Guid userId, Guid medicationId, IUser user)
+        public async Task<MedicationDto> GetById(Guid userId, Guid medicationId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -75,7 +75,7 @@ namespace HealthReminder.AppService.Medication
             };
         }
 
-        public async Task<List<MedicationDto>> GetMedicationsByUserIdAsync(Guid userId, IUser user)
+        public async Task<List<MedicationDto>> GetAll(Guid userId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -94,7 +94,7 @@ namespace HealthReminder.AppService.Medication
             }).ToList();
         }
 
-        public async Task UpdateMedicationAsync(Guid userId, Guid medicationId, UpdateMedicationDto updateMedicationDto, IUser user)
+        public async Task Update(Guid userId, Guid medicationId, UpdateMedicationDto updateMedicationDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (updateMedicationDto == null) throw new ArgumentNullException(nameof(updateMedicationDto));
@@ -106,13 +106,11 @@ namespace HealthReminder.AppService.Medication
             medication.Dosage = updateMedicationDto.Dosage;
             medication.Frequency = updateMedicationDto.Frequency;
             medication.TotalPills = updateMedicationDto.TotalPills;
-            medication.AlertThreshold = updateMedicationDto.AlertThreshold;
-            medication.IsLowStockAlertSent = updateMedicationDto.IsLowStockAlertSent;
 
             await _medicationRepository.UpdateMedicationAsync(medication);
         }
 
-        public async Task DeleteMedicationAsync(Guid userId, Guid medicationId, IUser user)
+        public async Task Delete(Guid userId, Guid medicationId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 

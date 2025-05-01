@@ -28,7 +28,7 @@ namespace HealthReminder.Api.Controllers.Auth
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
         {
-            await _authAppService.RegisterAsync(registerUserDto);
+            await _authAppService.Register(registerUserDto);
             return Ok("Usuário registrado com sucesso.");
         }
 
@@ -43,7 +43,7 @@ namespace HealthReminder.Api.Controllers.Auth
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login(LoginUserDto loginUserDto)
         {
-            var token = await _authAppService.LoginAsync(loginUserDto);
+            var token = await _authAppService.Login(loginUserDto);
             return Ok(new { token });
         }
     }
