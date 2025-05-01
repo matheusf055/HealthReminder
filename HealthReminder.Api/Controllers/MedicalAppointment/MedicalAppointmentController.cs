@@ -84,11 +84,9 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateMedicalAppointmentAsync([FromRoute] Guid userId,
-            [FromRoute] Guid appointmentId,
-            [FromBody] UpdateMedicalAppointmentDto updateMedicalAppointmentDto)
+        public async Task<IActionResult> UpdateMedicalAppointmentAsync([FromBody] UpdateMedicalAppointmentCommand command)
         {
-            await _medicalAppointmentAppService.Update(userId, appointmentId, updateMedicalAppointmentDto, _user);
+            await _medicalAppointmentAppService.Update(command, _user);
             return Ok();
         }
 

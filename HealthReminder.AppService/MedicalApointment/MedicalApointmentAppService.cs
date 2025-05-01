@@ -17,7 +17,7 @@ namespace HealthReminder.AppService.MedicalApointment
             _medicalAppointmentRepository = medicalAppointmentRepository;
         }
 
-        public async Task<CreateMedicalAppointmentDto> Create(CreateMedicalAppointmentCommand command, IUser user)
+        public async Task<MedicalAppointmentDto> Create(CreateMedicalAppointmentCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -26,7 +26,8 @@ namespace HealthReminder.AppService.MedicalApointment
 
             await _medicalAppointmentRepository.AddMedicalAppointmentAsync(medicalApoint, user);
 
-            var dto = new CreateMedicalAppointmentDto {
+            var dto = new MedicalAppointmentDto
+            {
                 Id = medicalApoint.Id,
                 UserId = medicalApoint.UserId,
                 DoctorName = medicalApoint.DoctorName,
@@ -61,7 +62,7 @@ namespace HealthReminder.AppService.MedicalApointment
                     SeekExamDate = exam.SeekExamDate,
                     UserId = exam.UserId,
                     MedicalAppointmentId = exam.MedicalAppointmentId
-                }).ToList()
+                })
             };
         }
 
@@ -87,21 +88,21 @@ namespace HealthReminder.AppService.MedicalApointment
                     UserId = exam.UserId,
                     MedicalAppointmentId = exam.MedicalAppointmentId,
                     SeekExamDate = exam.SeekExamDate
-                }).ToList()
+                })
             }).ToList();
         }
 
-        public async Task Update(Guid userId, Guid appointmentId, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
+        public async Task Update(UpdateMedicalAppointmentCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(appointmentId, userId);
+            var medicalAppointment = await _medicalAppointmentRepository.GetMedicalAppointmentByIdAsync(command.AppointmentId, command.UserId);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
-            medicalAppointment.DoctorName = updateMedicalAppointmentDto.DoctorName;
-            medicalAppointment.Specialty = updateMedicalAppointmentDto.Specialty;
-            medicalAppointment.AppointmentDateTime = updateMedicalAppointmentDto.AppointmentDateTime;
-            medicalAppointment.Location = updateMedicalAppointmentDto.Location;
+            medicalAppointment.DoctorName = command.DoctorName;
+            medicalAppointment.Specialty = command.Specialty;
+            medicalAppointment.AppointmentDateTime = command.AppointmentDateTime;
+            medicalAppointment.Location = command.Location;
 
             await _medicalAppointmentRepository.UpdateMedicalAppointmentAsync(medicalAppointment);
         }

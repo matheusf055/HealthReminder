@@ -20,7 +20,7 @@ namespace HealthReminder.AppService.Exam
             _examRepository = examRepository;
         }
 
-        public async Task<CreateExamDto> Create(CreateExamCommand command, IUser user)
+        public async Task<ExamDto> Create(CreateExamCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -29,7 +29,7 @@ namespace HealthReminder.AppService.Exam
 
             await _examRepository.AddExamAsync(exam, user);
 
-            var dto = new CreateExamDto
+            var dto = new ExamDto
             {
                 Id = exam.Id,
                 Name = exam.Name,
@@ -49,15 +49,17 @@ namespace HealthReminder.AppService.Exam
             var exam = await _examRepository.GetExamByIdAsync(examId, userId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
-            return new ExamDto
+            var dto = new ExamDto
             {
                 Id = exam.Id,
                 Name = exam.Name,
                 ScheduledDate = exam.ScheduledDate,
                 SeekExamDate = exam.SeekExamDate,
                 UserId = exam.UserId,
-                MedicalAppointmentId = exam.MedicalAppointmentId 
+                MedicalAppointmentId = exam.MedicalAppointmentId
             };
+
+            return dto;
         }
 
         public async Task<List<ExamDto>> GetAll(Guid userId, IUser user)
@@ -65,29 +67,30 @@ namespace HealthReminder.AppService.Exam
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var exams = await _examRepository.GetExamsByUserIdAsync(userId);
-
-            return exams.Select(exam => new ExamDto
+            var dto = exams.Select(exam => new ExamDto
             {
                 Id = exam.Id,
                 Name = exam.Name,
                 ScheduledDate = exam.ScheduledDate,
                 SeekExamDate = exam.SeekExamDate,
                 UserId = exam.UserId,
-                MedicalAppointmentId = exam.MedicalAppointmentId 
+                MedicalAppointmentId = exam.MedicalAppointmentId
             }).ToList();
+
+            return dto;
         }
 
-        public async Task Update(Guid userId, Guid examId, UpdateExamDto updateExamDto, IUser user)
+        public async Task Update(UpdateExamCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(examId, userId);
+            var exam = await _examRepository.GetExamByIdAsync(command.Id, command.UserId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
-            exam.Name = updateExamDto.Name;
-            exam.ScheduledDate = updateExamDto.ScheduledDate;
-            exam.SeekExamDate = updateExamDto.SeekExamDate;
-            exam.MedicalAppointmentId = updateExamDto.MedicalAppointmentId; 
+            exam.Name = command.Name;
+            exam.ScheduledDate = command.ScheduledDate;
+            exam.SeekExamDate = command.SeekExamDate;
+            exam.MedicalAppointmentId = command.MedicalAppointmentId; 
 
             await _examRepository.UpdateExamAsync(exam);
         }

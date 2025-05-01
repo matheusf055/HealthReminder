@@ -8,7 +8,7 @@ namespace HealthReminder.Domain.MedicalAppointment
     {
         public MedicalAppointments() { }
 
-        public MedicalAppointments(string doctorName, string? specialty, DateTime appointmentDateTime, string location, Guid userId)
+        public MedicalAppointments(string? doctorName, string? specialty, DateTime appointmentDateTime, string location, Guid userId)
         {
             DoctorName = doctorName;
             Specialty = specialty;
@@ -18,12 +18,12 @@ namespace HealthReminder.Domain.MedicalAppointment
             UserId = userId;
         }
 
-        public string DoctorName { get; set; }
+        public string? DoctorName { get; set; }
         public string? Specialty { get; set; }
         public DateTime AppointmentDateTime { get; set; }
         public string Location { get; set; }
         public Guid UserId { get; set; }
-        public ICollection<Exams> Exams { get; set; } = new List<Exams>();
+        public IEnumerable<Exams> Exams { get; set; }
 
         #region auditable
         public Guid CreateUserId { get; set; }
