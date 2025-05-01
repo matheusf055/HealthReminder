@@ -23,7 +23,7 @@ namespace HealthReminder.AppService.User
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var userDetails = await _userRepository.GetUserByEmailAsync(user.Email);
+            var userDetails = await _userRepository.GetById(userId);
             if (userDetails == null) throw new KeyNotFoundException("Usuário não encontrado");
 
             return new UserDto
@@ -38,10 +38,10 @@ namespace HealthReminder.AppService.User
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var userDetails = await _userRepository.GetUserByIdAsync(userId);
+            var userDetails = await _userRepository.GetById(userId);
             if (userDetails == null) throw new KeyNotFoundException("Usuário não encontrado");
 
-            await _userRepository.DeleteUserAsync(userId);
+            await _userRepository.Delete(userId);
         }
     }
 }

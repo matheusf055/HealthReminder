@@ -4,11 +4,9 @@ namespace HealthReminder.Domain.User.Repositories
 {
     public interface IUserRepository
     {
-        Task AddUserAsync(Users user);
-        Task<Users> GetUserByIdAsync(Guid id);
-        Task<Users> GetUserByEmailAsync(string email);
-        Task<Users> GetUserDetailsAsync(Guid id);
-        Task UpdateUserAsync(Users user);
-        Task DeleteUserAsync(Guid id);
+        Task Create(Users user);
+        Task<Users> GetById(Guid id);
+        Task<Users> GetByEmail(string email);
+        Task Delete(Guid id);
     }
 }

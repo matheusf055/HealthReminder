@@ -23,20 +23,20 @@ namespace HealthReminder.AppService.Auth
         {
             if (registerUserDto == null) throw new ArgumentNullException(nameof(registerUserDto));
 
-            var existingUser = await _userRepository.GetUserByEmailAsync(registerUserDto.Email);
+            var existingUser = await _userRepository.GetByEmail(registerUserDto.Email);
             if (existingUser != null) throw new ArgumentException("Usuário já registrado");
 
             var hashedPassword = _passwordHasher.HashPassword(registerUserDto.Password);
 
             var user = new Users(registerUserDto.Name, registerUserDto.Email, hashedPassword);
-            await _userRepository.AddUserAsync(user);
+            await _userRepository.Create(user);
         }
 
         public async Task<string> Login(LoginUserDto loginUserDto)
         {
             if (loginUserDto == null) throw new ArgumentNullException(nameof(loginUserDto));
 
-            var user = await _userRepository.GetUserByEmailAsync(loginUserDto.Email);
+            var user = await _userRepository.GetByEmail(loginUserDto.Email);
             if (user == null) throw new UnauthorizedAccessException("Email ou senha inválidos.");
 
             var userPassword = _passwordHasher.VerifyPassword(loginUserDto.Password, user.Password);
