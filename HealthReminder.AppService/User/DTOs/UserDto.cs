@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthReminder.AppService.User.DTOs
 {
-    public class UserDetailsDto
+    public class UserDto
     {
         public string Name { get; set; }
         public string Email { get; set; }

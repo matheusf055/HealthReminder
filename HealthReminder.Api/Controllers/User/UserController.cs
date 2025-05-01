@@ -29,32 +29,13 @@ namespace HealthReminder.Api.Controllers.User
         [SwaggerResponse(200, "Detalhes do usuário retornados com sucesso")]
         [SwaggerResponse(401, "Não autorizado")]
         [SwaggerResponse(404, "Usuário não encontrado")]
-        [ProducesResponseType(typeof(UserDetailsDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserDetails([FromRoute] Guid userId)
         {
             var user = await _userAppService.GetById(userId, _user);
             return Ok(user);
-        }
-
-        [HttpPut("{userId}")]
-        [SwaggerOperation(
-            Summary = "Atualiza dados do usuário",
-            Description = "Atualiza as informações de um usuário existente"
-        )]
-        [SwaggerResponse(200, "Usuário atualizado com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos fornecidos")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Usuário não encontrado")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid userId, [FromBody] UpdateUserDto updateUserDto)
-        {
-            await _userAppService.Update(updateUserDto, userId, _user);
-            return Ok("Usuário atualizado com sucesso.");
         }
 
         [HttpDelete("{userId}")]

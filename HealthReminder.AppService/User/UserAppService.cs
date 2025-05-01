@@ -19,32 +19,19 @@ namespace HealthReminder.AppService.User
             _userRepository = userRepository;
         }
 
-        public async Task<UserDetailsDto> GetById(Guid userId, IUser user)
+        public async Task<UserDto> GetById(Guid userId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var userDetails = await _userRepository.GetUserByEmailAsync(user.Email);
             if (userDetails == null) throw new KeyNotFoundException("Usuário não encontrado");
 
-            return new UserDetailsDto
+            return new UserDto
             {
                 Name = userDetails.Name,
                 Email = userDetails.Email,
                 CreateDate = userDetails.CreateDate
             };
-        }
-
-        public async Task Update(UpdateUserDto updateUserDto, Guid userId, IUser user)
-        {
-            if (user == null) throw new ArgumentNullException(nameof(user));
-
-            var userDetails = await _userRepository.GetUserByIdAsync(userId);
-            if (userDetails == null) throw new KeyNotFoundException("Usuário não encontrado");
-
-            userDetails.Name = updateUserDto.Name;
-            userDetails.Email = updateUserDto.Email;
-
-            await _userRepository.UpdateUserAsync(userDetails);
         }
 
         public async Task Delete(Guid userId, IUser user)
