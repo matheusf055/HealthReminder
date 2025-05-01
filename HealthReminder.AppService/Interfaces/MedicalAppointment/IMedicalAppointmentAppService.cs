@@ -11,10 +11,10 @@ namespace HealthReminder.AppService.Interfaces.MedicalAppointment
 {
     public interface IMedicalAppointmentAppService
     {
-        Task<CreateMedicalAppointmentDto> Create(CreateMedicalAppointmentCommand command, IUser user);
+        Task<MedicalAppointmentDto> Create(CreateMedicalAppointmentCommand command, IUser user);
         Task<MedicalAppointmentDto> GetById(Guid userId, Guid appointmentId, IUser user);
         Task<List<MedicalAppointmentDto>> GetAll(Guid userId, IUser user);
-        Task Update(Guid userId, Guid appointmentId, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user);
+        Task Update(UpdateMedicalAppointmentCommand command, IUser user);
         Task Delete(Guid userId, Guid appointmentId, IUser user);
     }
 }

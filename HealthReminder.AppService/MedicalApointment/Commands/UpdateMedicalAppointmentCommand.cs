@@ -1,20 +1,18 @@
-﻿using HealthReminder.AppService.Exam.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthReminder.AppService.MedicalApointment.DTOs
+namespace HealthReminder.AppService.MedicalApointment.Commands
 {
-    public class MedicalAppointmentDto
+    public class UpdateMedicalAppointmentCommand
     {
-        public Guid Id { get; set; }
+        public Guid AppointmentId { get; set; }
+        public Guid UserId { get; set; }
         public string? DoctorName { get; set; }
         public string? Specialty { get; set; }
         public DateTime AppointmentDateTime { get; set; }
         public string Location { get; set; }
-        public Guid UserId { get; set; }
-        public IEnumerable<ExamDto> Exams { get; set; }
     }
 }
