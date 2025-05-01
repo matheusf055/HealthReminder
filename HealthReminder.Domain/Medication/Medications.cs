@@ -7,7 +7,7 @@ namespace HealthReminder.Domain.Medication
     {
         public Medications() { }
 
-        public Medications(string name, string dosage, string frequency, int totalPills, Guid userId, Guid createUserId, string createUser)
+        public Medications(string name, string dosage, string frequency, int totalPills, Guid userId)
         {
             Name = name;
             Dosage = dosage;
@@ -16,9 +16,6 @@ namespace HealthReminder.Domain.Medication
             TotalPills = totalPills;
             AlertThreshold = totalPills * 0.2;
 
-            CreateUserId = createUserId;
-            CreateUser = createUser;
-            CreateDate = DateTime.UtcNow;
             UserId = userId;
 
             IsLowStockAlertSent = ShouldAlertForRefill();

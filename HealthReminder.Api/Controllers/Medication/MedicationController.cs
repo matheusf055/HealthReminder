@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Annotations;
+using HealthReminder.AppService.Medication.Commands;
 
 namespace HealthReminder.Api.Controllers.Medication
 {
@@ -34,10 +35,10 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddMedicationAsync([FromRoute] Guid userId, [FromBody] CreateMedicationDto createMedicationDto)
+        public async Task<IActionResult> AddMedicationAsync([FromBody] CreateMedicationCommand command)
         {
-            await _medicationAppService.AddMedicationAsync(userId, createMedicationDto, _user);
-            return Ok("Medicação criada com sucesso.");
+            var result = await _medicationAppService.AddMedicationAsync(command, _user);
+            return Ok(result);
         }
 
         [HttpPost("{medicationId}/take")]
@@ -54,7 +55,7 @@ namespace HealthReminder.Api.Controllers.Medication
         public async Task<IActionResult> TakeMedication([FromRoute] Guid userId, [FromRoute] Guid medicationId)
         {
             await _medicationAppService.TakeMedicationAsync(userId, medicationId, _user);
-            return Ok("Medicação registrada como tomada.");
+            return Ok();
         }
 
         [HttpGet]
@@ -107,7 +108,7 @@ namespace HealthReminder.Api.Controllers.Medication
             [FromBody] UpdateMedicationDto updateMedicationDto)
         {
             await _medicationAppService.UpdateMedicationAsync(userId, medicationId, updateMedicationDto, _user);
-            return Ok("Medicação atualizada com sucesso.");
+            return Ok();
         }
 
         [HttpDelete("{medicationId}")]
@@ -126,7 +127,7 @@ namespace HealthReminder.Api.Controllers.Medication
             [FromRoute] Guid medicationId)
         {
             await _medicationAppService.DeleteMedicationAsync(userId, medicationId, _user);
-            return Ok("Medicação deletada com sucesso.");
+            return NoContent();
         }
     }
 }
