@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HealthReminder.AppService.Interfaces.Medication;
+using HealthReminder.AppService.Medication.Commands;
 using HealthReminder.AppService.Medication.DTOs;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.Medication;
@@ -19,23 +20,28 @@ namespace HealthReminder.AppService.Medication
             _medicationRepository = medicationRepository;
         }
 
-        public async Task AddMedicationAsync(Guid userId, CreateMedicationDto createMedicationDto, IUser user)
+        public async Task<MedicationDto> AddMedicationAsync(CreateMedicationCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (createMedicationDto == null) throw new ArgumentNullException(nameof(createMedicationDto));
+            if (command == null) throw new ArgumentNullException(nameof(command));
 
-            var medication = new Medications
-            (
-                createMedicationDto.Name,
-                createMedicationDto.Dosage,
-                createMedicationDto.Frequency,
-                createMedicationDto.TotalPills,
-                userId,
-                user.Id,
-                user.Name
-            );
+            var medication = new Medications(command.Name, command.Dosage, command.Frequency, command.TotalPills, command.UserId);
 
             await _medicationRepository.AddMedicationAsync(medication, user);
+
+            var dto = new MedicationDto
+            {
+                Id = medication.Id,
+                Name = medication.Name,
+                Dosage = medication.Dosage,
+                Frequency = medication.Frequency,
+                TotalPills = medication.TotalPills,
+                AlertThreshold = medication.AlertThreshold,
+                IsLowStockAlertSent = medication.IsLowStockAlertSent,
+                UserId = command.UserId
+            };
+
+            return dto;
         }
 
         public async Task TakeMedicationAsync(Guid userId, Guid medicationId, IUser user)
