@@ -21,7 +21,7 @@ namespace HealthReminder.Infrastructure.Repositories.Medication
             _context = context;
         }
 
-        public async Task AddMedicationAsync(Medications medication, IUser user)
+        public async Task Create(Medications medication, IUser user)
         {
             medication.CreateUserId = user.Id;
             medication.CreateUser = user.Name;
@@ -31,23 +31,23 @@ namespace HealthReminder.Infrastructure.Repositories.Medication
            await _context.SaveChangesAsync();
         }
 
-        public async Task<Medications> GetMedicationByIdAsync(Guid id, Guid userId)
+        public async Task<Medications> GetById(Guid id, Guid userId)
         {
             return await _context.Medications.FirstOrDefaultAsync(m => m.Id == id && m.UserId == userId);
         }
 
-        public async Task<List<Medications>> GetMedicationsByUserIdAsync(Guid userId)
+        public async Task<List<Medications>> GetAll(Guid userId)
         {
            return await _context.Medications.Where(m => m.UserId == userId).ToListAsync();
         }
 
-        public async Task UpdateMedicationAsync(Medications medication)
+        public async Task Update(Medications medication)
         {
             _context.Medications.Update(medication);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteMedicationAsync(Guid id, Guid userId)
+        public async Task Delete(Guid id, Guid userId)
         {
             var medication = await _context.Medications.FirstOrDefaultAsync(m => m.Id == id && m.UserId == userId);
             if (medication != null)
