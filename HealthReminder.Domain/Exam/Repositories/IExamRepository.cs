@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HealthReminder.Domain.Common;
 
-namespace HealthReminder.Domain.Exams.Repositories
+namespace HealthReminder.Domain.Exam.Repositories
 {
     public interface IExamRepository
     {

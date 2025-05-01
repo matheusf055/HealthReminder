@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace HealthReminder.Domain.Users.Repositories
+namespace HealthReminder.Domain.User.Repositories
 {
     public interface IUserRepository
     {

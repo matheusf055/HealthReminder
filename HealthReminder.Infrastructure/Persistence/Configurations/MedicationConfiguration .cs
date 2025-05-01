@@ -1,5 +1,5 @@
-﻿using HealthReminder.Domain.Medications;
-using HealthReminder.Domain.Users;
+﻿using HealthReminder.Domain.Medication;
+using HealthReminder.Domain.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

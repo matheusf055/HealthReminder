@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using HealthReminder.AppService.Interfaces.Medication;
 using HealthReminder.AppService.Medication.DTOs;
 using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Medications;
-using HealthReminder.Domain.Medications.Repositories;
+using HealthReminder.Domain.Medication;
+using HealthReminder.Domain.Medication.Repositories;
 
 namespace HealthReminder.AppService.Medication
 {
@@ -24,7 +24,8 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (createMedicationDto == null) throw new ArgumentNullException(nameof(createMedicationDto));
 
-            var medication = new Medications(
+            var medication = new Medications
+            (
                 createMedicationDto.Name,
                 createMedicationDto.Dosage,
                 createMedicationDto.Frequency,
@@ -34,7 +35,7 @@ namespace HealthReminder.AppService.Medication
                 user.Name
             );
 
-            await _medicationRepository.AddMedicationAsync(medication);
+            await _medicationRepository.AddMedicationAsync(medication, user);
         }
 
         public async Task TakeMedicationAsync(Guid userId, Guid medicationId, IUser user)
@@ -42,7 +43,7 @@ namespace HealthReminder.AppService.Medication
             if (user == null) throw new ArgumentNullException(nameof(user));
 
             var medication = await _medicationRepository.GetMedicationByIdAsync(medicationId, userId);
-            if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
+            if (medication == null) throw new KeyNotFoundException("Medicação não encontrada.");
 
             medication.TakePill();
             await _medicationRepository.UpdateMedicationAsync(medication);
@@ -64,7 +65,7 @@ namespace HealthReminder.AppService.Medication
                 TotalPills = medication.TotalPills,
                 AlertThreshold = medication.AlertThreshold,
                 IsLowStockAlertSent = medication.IsLowStockAlertSent,
-                UserId = userId
+                UserId = medication.UserId
             };
         }
 
@@ -83,7 +84,7 @@ namespace HealthReminder.AppService.Medication
                 TotalPills = medication.TotalPills,
                 AlertThreshold = medication.AlertThreshold,
                 IsLowStockAlertSent = medication.IsLowStockAlertSent,
-                UserId = userId
+                UserId = medication.UserId
             }).ToList();
         }
 

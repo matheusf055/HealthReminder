@@ -1,7 +1,7 @@
 ﻿using HealthReminder.Domain.Common.Entities;
 using System.Security.Cryptography;
 
-namespace HealthReminder.Domain.Users
+namespace HealthReminder.Domain.User
 {
     public class Users : EntityBase
     {

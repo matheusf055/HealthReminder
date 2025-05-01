@@ -1,7 +1,7 @@
-﻿using HealthReminder.Domain.Exams;
-using HealthReminder.Domain.MedicalAppointments;
-using HealthReminder.Domain.Medications;
-using HealthReminder.Domain.Users;
+﻿using HealthReminder.Domain.Exam;
+using HealthReminder.Domain.MedicalAppointment;
+using HealthReminder.Domain.Medication;
+using HealthReminder.Domain.User;
 using HealthReminder.Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 

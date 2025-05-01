@@ -1,6 +1,6 @@
 ﻿using HealthReminder.Domain.Common;
-using HealthReminder.Domain.MedicalAppointments;
-using HealthReminder.Domain.MedicalAppointments.Repositories;
+using HealthReminder.Domain.MedicalAppointment;
+using HealthReminder.Domain.MedicalAppointment.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using System;

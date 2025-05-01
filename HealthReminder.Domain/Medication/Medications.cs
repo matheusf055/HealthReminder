@@ -1,7 +1,7 @@
 ﻿using HealthReminder.Domain.Common.Auditable;
 using HealthReminder.Domain.Common.Entities;
 
-namespace HealthReminder.Domain.Medications
+namespace HealthReminder.Domain.Medication
 {
     public class Medications : EntityBase, ICreateAuditable
     {
@@ -49,8 +49,8 @@ namespace HealthReminder.Domain.Medications
             {
                 TotalPills--;
                 IsLowStockAlertSent = ShouldAlertForRefill();
-            } 
-            else 
+            }
+            else
             {
                 throw new InvalidOperationException("Não há mais pílulas disponíveis.");
             }
