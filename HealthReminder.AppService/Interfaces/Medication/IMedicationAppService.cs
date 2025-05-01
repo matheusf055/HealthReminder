@@ -11,7 +11,7 @@ namespace HealthReminder.AppService.Interfaces.Medication
         Task Take(Guid userId, Guid medicationId, IUser user);
         Task<MedicationDto> GetById(Guid userId, Guid medicationId, IUser user);
         Task<List<MedicationDto>> GetAll(Guid userId, IUser user);
-        Task Update(Guid userId, Guid medicationId, UpdateMedicationDto updateMedicationDto, IUser user);
+        Task Update(UpdateMedicationCommand command, IUser user);
         Task Delete(Guid userId, Guid medicationId, IUser user);
     }
 }

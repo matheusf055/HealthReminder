@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HealthReminder.AppService.Exam.Commands;
 using HealthReminder.AppService.Interfaces.Medication;
 using HealthReminder.AppService.Medication.Commands;
 using HealthReminder.AppService.Medication.DTOs;
@@ -94,18 +95,18 @@ namespace HealthReminder.AppService.Medication
             }).ToList();
         }
 
-        public async Task Update(Guid userId, Guid medicationId, UpdateMedicationDto updateMedicationDto, IUser user)
+        public async Task Update(UpdateMedicationCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (updateMedicationDto == null) throw new ArgumentNullException(nameof(updateMedicationDto));
+            if (command == null) throw new ArgumentNullException(nameof(command));
 
-            var medication = await _medicationRepository.GetMedicationByIdAsync(medicationId, userId);
+            var medication = await _medicationRepository.GetMedicationByIdAsync(command.Id, command.UserId);
             if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
-            medication.Name = updateMedicationDto.Name;
-            medication.Dosage = updateMedicationDto.Dosage;
-            medication.Frequency = updateMedicationDto.Frequency;
-            medication.TotalPills = updateMedicationDto.TotalPills;
+            medication.Name = command.Name;
+            medication.Dosage = command.Dosage;
+            medication.Frequency = command.Frequency;
+            medication.TotalPills = command.TotalPills;
 
             await _medicationRepository.UpdateMedicationAsync(medication);
         }
