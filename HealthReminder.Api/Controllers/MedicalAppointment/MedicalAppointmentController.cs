@@ -1,5 +1,5 @@
 ﻿using HealthReminder.AppService.Interfaces.MedicalAppointment;
-using HealthReminder.AppService.MedicalApointment;
+using HealthReminder.AppService.MedicalApointment.Commands;
 using HealthReminder.AppService.MedicalApointment.DTOs;
 using HealthReminder.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -33,10 +33,10 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddMedicalAppointmentAsync([FromRoute] Guid userId, [FromBody] CreateMedicalAppointmentDto createMedicalAppointmentDto)
+        public async Task<IActionResult> AddMedicalAppointmentAsync([FromBody] CreateMedicalAppointmentCommand command)
         {
-            await _medicalAppointmentAppService.AddMedicalAppointmentAsync(userId, createMedicalAppointmentDto, _user);
-            return Ok("Consulta criada com sucesso.");
+            var result = await _medicalAppointmentAppService.AddMedicalAppointmentAsync(command, _user);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -89,7 +89,7 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
             [FromBody] UpdateMedicalAppointmentDto updateMedicalAppointmentDto)
         {
             await _medicalAppointmentAppService.UpdateMedicalAppointmentAsync(userId, appointmentId, updateMedicalAppointmentDto, _user);
-            return Ok("Consulta atualizada com sucesso.");
+            return Ok();
         }
 
         [HttpDelete("{appointmentId}")]
@@ -106,7 +106,7 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         public async Task<IActionResult> DeleteMedicalAppointmentAsync([FromRoute] Guid userId, [FromRoute] Guid appointmentId)
         {
             await _medicalAppointmentAppService.DeleteMedicalAppointmentAsync(userId, appointmentId, _user);
-            return Ok("Consulta deletada com sucesso.");
+            return NoContent();
         }
     }
 }

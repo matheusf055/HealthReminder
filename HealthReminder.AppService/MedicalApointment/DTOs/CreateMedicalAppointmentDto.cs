@@ -9,6 +9,9 @@ namespace HealthReminder.AppService.MedicalApointment.DTOs
 {
     public class CreateMedicalAppointmentDto
     {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+
         [Required(ErrorMessage = "Nome do médico é obrigatório.")]
         public string DoctorName { get; set; }
 

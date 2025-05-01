@@ -1,9 +1,10 @@
 ﻿using HealthReminder.AppService.Exam.DTOs;
 using HealthReminder.AppService.Interfaces.MedicalAppointment;
+using HealthReminder.AppService.MedicalApointment.Commands;
 using HealthReminder.AppService.MedicalApointment.DTOs;
 using HealthReminder.Domain.Common;
-using HealthReminder.Domain.MedicalAppointments;
-using HealthReminder.Domain.MedicalAppointments.Repositories;
+using HealthReminder.Domain.MedicalAppointment;
+using HealthReminder.Domain.MedicalAppointment.Repositories;
 
 namespace HealthReminder.AppService.MedicalApointment
 {
@@ -16,25 +17,25 @@ namespace HealthReminder.AppService.MedicalApointment
             _medicalAppointmentRepository = medicalAppointmentRepository;
         }
 
-        public async Task AddMedicalAppointmentAsync(Guid userId, CreateMedicalAppointmentDto createMedicalAppointmentDto, IUser user)
+        public async Task<CreateMedicalAppointmentDto> AddMedicalAppointmentAsync(CreateMedicalAppointmentCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (createMedicalAppointmentDto == null) throw new ArgumentNullException(nameof(createMedicalAppointmentDto));
+            if (command == null) throw new ArgumentNullException(nameof(command));
 
-            var specialty = createMedicalAppointmentDto.Specialty ?? string.Empty;
+            var medicalApoint = new MedicalAppointments(command.DoctorName, command.Specialty, command.AppointmentDateTime, command.Location, command.UserId);
 
-            var medicalApoint = new MedicalAppointments
-            (
-                createMedicalAppointmentDto.DoctorName,
-                specialty,
-                createMedicalAppointmentDto.AppointmentDateTime,
-                createMedicalAppointmentDto.Location,
-                userId,
-                user.Id,
-                user.Name
-            );
+            await _medicalAppointmentRepository.AddMedicalAppointmentAsync(medicalApoint, user);
 
-            await _medicalAppointmentRepository.AddMedicalAppointmentAsync(medicalApoint);
+            var dto = new CreateMedicalAppointmentDto {
+                Id = medicalApoint.Id,
+                UserId = medicalApoint.UserId,
+                DoctorName = medicalApoint.DoctorName,
+                Specialty = medicalApoint.Specialty,
+                AppointmentDateTime = medicalApoint.AppointmentDateTime,
+                Location = medicalApoint.Location,
+            };
+
+            return dto;
         }
 
         public async Task<MedicalAppointmentDto> GetMedicalAppointmentByIdAsync(Guid userId, Guid appointmentId, IUser user)
