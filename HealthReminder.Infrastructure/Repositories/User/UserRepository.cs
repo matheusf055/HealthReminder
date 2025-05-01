@@ -27,11 +27,7 @@ namespace HealthReminder.Infrastructure.Repositories.User
 
         public async Task<Users> GetByEmail(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null)
-                throw new KeyNotFoundException("Usuário não encontrado.");
-
-            return user;    
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email); 
         }
 
         public async Task Delete(Guid id)
