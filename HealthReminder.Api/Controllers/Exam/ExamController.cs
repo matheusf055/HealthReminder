@@ -84,9 +84,9 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId, [FromBody] UpdateExamDto updateExamDto)
+        public async Task<IActionResult> UpdateExamAsync(UpdateExamCommand command)
         {
-            await _examAppService.Update(userId, examId, updateExamDto, _user);
+            await _examAppService.Update(command, _user);
             return Ok();
         }
 
