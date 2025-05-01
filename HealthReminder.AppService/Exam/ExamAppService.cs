@@ -2,8 +2,8 @@
 using HealthReminder.AppService.Exam.DTOs;
 using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Exams;
-using HealthReminder.Domain.Exams.Repositories;
+using HealthReminder.Domain.Exam;
+using HealthReminder.Domain.Exam.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

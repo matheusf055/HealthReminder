@@ -1,8 +1,8 @@
 ﻿using HealthReminder.AppService.Interfaces.Auth;
-using HealthReminder.Domain.Users;
 using HealthReminder.AppService.Auth.DTOs;
-using HealthReminder.Domain.Users.Repositories;
 using HealthReminder.Domain.Common.Security;
+using HealthReminder.Domain.User.Repositories;
+using HealthReminder.Domain.User;
 
 namespace HealthReminder.AppService.Auth
 {

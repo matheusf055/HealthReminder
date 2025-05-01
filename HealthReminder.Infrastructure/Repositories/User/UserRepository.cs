@@ -1,5 +1,5 @@
-﻿using HealthReminder.Domain.Users;
-using HealthReminder.Domain.Users.Repositories;
+﻿using HealthReminder.Domain.User;
+using HealthReminder.Domain.User.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

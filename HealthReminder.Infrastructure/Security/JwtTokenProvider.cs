@@ -1,5 +1,5 @@
 ﻿using HealthReminder.Domain.Common.Security;
-using HealthReminder.Domain.Users;
+using HealthReminder.Domain.User;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;

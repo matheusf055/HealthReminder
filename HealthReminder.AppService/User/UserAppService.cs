@@ -1,7 +1,7 @@
 ﻿using HealthReminder.AppService.Interfaces.User;
 using HealthReminder.AppService.User.DTOs;
 using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Users.Repositories;
+using HealthReminder.Domain.User.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

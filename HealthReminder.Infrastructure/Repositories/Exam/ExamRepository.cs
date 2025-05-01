@@ -1,6 +1,6 @@
 ﻿using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Exams;
-using HealthReminder.Domain.Exams.Repositories;
+using HealthReminder.Domain.Exam;
+using HealthReminder.Domain.Exam.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 

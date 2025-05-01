@@ -1,6 +1,5 @@
 ﻿using HealthReminder.AppService.Medication.DTOs;
 using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Users;
 using System;
 
 namespace HealthReminder.AppService.Interfaces.Medication

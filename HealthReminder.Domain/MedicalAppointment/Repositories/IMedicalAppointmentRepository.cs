@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HealthReminder.Domain.Common;
 
-namespace HealthReminder.Domain.MedicalAppointments.Repositories
+namespace HealthReminder.Domain.MedicalAppointment.Repositories
 {
     public interface IMedicalAppointmentRepository
     {

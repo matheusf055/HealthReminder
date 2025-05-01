@@ -1,6 +1,5 @@
-﻿using HealthReminder.Domain.Exams;
-using HealthReminder.Domain.MedicalAppointments;
-using HealthReminder.Domain.Users;
+﻿using HealthReminder.Domain.Exam;
+using HealthReminder.Domain.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

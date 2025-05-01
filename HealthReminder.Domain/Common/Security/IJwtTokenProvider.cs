@@ -1,4 +1,4 @@
-﻿using HealthReminder.Domain.Users;
+﻿using HealthReminder.Domain.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace HealthReminder.Domain.Common.Security
 {
     public interface IJwtTokenProvider
     {
-        string GenerateToken(Domain.Users.Users user);
+        string GenerateToken(Users user);
     }
 }

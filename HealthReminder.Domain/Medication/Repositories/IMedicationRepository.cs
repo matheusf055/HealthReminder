@@ -1,12 +1,11 @@
 ﻿using HealthReminder.Domain.Common;
-using HealthReminder.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HealthReminder.Domain.Medications.Repositories
+namespace HealthReminder.Domain.Medication.Repositories
 {
     public interface IMedicationRepository
     {

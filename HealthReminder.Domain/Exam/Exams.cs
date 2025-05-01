@@ -1,7 +1,8 @@
 ﻿using HealthReminder.Domain.Common.Auditable;
 using HealthReminder.Domain.Common.Entities;
+using HealthReminder.Domain.MedicalAppointment;
 
-namespace HealthReminder.Domain.Exams
+namespace HealthReminder.Domain.Exam
 {
     public class Exams : EntityBase, ICreateAuditable
     {
@@ -23,7 +24,7 @@ namespace HealthReminder.Domain.Exams
         public Guid UserId { get; set; }
 
         public Guid? MedicalAppointmentId { get; set; }
-        public MedicalAppointments.MedicalAppointments? MedicalAppointment { get; set; }
+        public MedicalAppointments? MedicalAppointment { get; set; }
 
         #region auditable
         public Guid CreateUserId { get; set; }
