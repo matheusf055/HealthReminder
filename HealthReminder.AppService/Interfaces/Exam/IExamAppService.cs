@@ -1,4 +1,5 @@
-﻿using HealthReminder.AppService.Exam.DTOs;
+﻿using HealthReminder.AppService.Exam.Commands;
+using HealthReminder.AppService.Exam.DTOs;
 using HealthReminder.Domain.Common;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace HealthReminder.AppService.Interfaces.Exam
 {
     public interface IExamAppService
     {
-        Task AddExamAsync(Guid userId, CreateExamDto createExamDto, IUser user);
+        Task<CreateExamDto> AddExamAsync(CreateExamCommand command, IUser user);
         Task<ExamDto> GetExamByIdAsync(Guid userId, Guid examId, IUser user);
         Task<List<ExamDto>> GetExamsByUserIdAsync(Guid userId, IUser user);
         Task UpdateExamAsync(Guid userId, Guid examId, UpdateExamDto updateExamDto, IUser user);

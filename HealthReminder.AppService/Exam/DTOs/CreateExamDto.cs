@@ -9,6 +9,10 @@ namespace HealthReminder.AppService.Exam.DTOs
 {
     public class CreateExamDto
     {
+        public Guid Id { get; set; }
+
+        public Guid UserId { get; set; }
+
         [Required(ErrorMessage = "Nome do exame é obrigatório.")]
         public string Name { get; set; }
 

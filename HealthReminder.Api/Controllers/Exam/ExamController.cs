@@ -1,4 +1,5 @@
-﻿using HealthReminder.AppService.Exam.DTOs;
+﻿using HealthReminder.AppService.Exam.Commands;
+using HealthReminder.AppService.Exam.DTOs;
 using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.Domain.Common;
 using Microsoft.AspNetCore.Authorization;
@@ -32,10 +33,10 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddExamAsync([FromRoute] Guid userId, [FromBody] CreateExamDto createExamDto)
+        public async Task<IActionResult> AddExamAsync([FromRoute] Guid userId, [FromBody] CreateExamCommand command)
         {
-            await _examAppService.AddExamAsync(userId, createExamDto, _user);
-            return Ok("Exame criado com sucesso.");
+            var result = await _examAppService.AddExamAsync(command, _user);
+            return Ok(result);
         }
 
         [HttpGet]
@@ -86,7 +87,7 @@ namespace HealthReminder.Api.Controllers.Exam
         public async Task<IActionResult> UpdateExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId, [FromBody] UpdateExamDto updateExamDto)
         {
             await _examAppService.UpdateExamAsync(userId, examId, updateExamDto, _user);
-            return Ok("Exame atualizado com sucesso.");
+            return Ok();
         }
 
         [HttpDelete("{examId}")]
@@ -103,7 +104,7 @@ namespace HealthReminder.Api.Controllers.Exam
         public async Task<IActionResult> DeleteExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
         {
             await _examAppService.DeleteExamByIdAsync(userId, examId, _user);
-            return Ok("Exame excluído com sucesso.");
+            return NoContent();
         }
     }
 }
