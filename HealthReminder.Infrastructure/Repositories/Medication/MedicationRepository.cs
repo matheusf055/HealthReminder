@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.Medications;
+﻿using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Medications;
 using HealthReminder.Domain.Medications.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +20,14 @@ namespace HealthReminder.Infrastructure.Repositories.Medication
             _context = context;
         }
 
-        public async Task AddMedicationAsync(Medications medication)
+        public async Task AddMedicationAsync(Medications medication, IUser user)
         {
-           await _context.Medications.AddAsync(medication);
-           await _context.SaveChangesAsync();
+            medication.CreateUserId = user.Id;
+            medication.CreateUser = user.Name;
+            medication.CreateDate = DateTime.UtcNow;
+
+            await _context.Medications.AddAsync(medication);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Medications> GetMedicationByIdAsync(Guid id, Guid userId)

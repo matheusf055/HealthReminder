@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.Exams;
+﻿using HealthReminder.Domain.Common;
+using HealthReminder.Domain.Exams;
 using HealthReminder.Domain.Exams.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +15,12 @@ namespace HealthReminder.Infrastructure.Repositories.Exam
             _context = context;
         }
 
-        public async Task AddExamAsync(Exams exam)
+        public async Task AddExamAsync(Exams exam, IUser user)
         {
+            exam.CreateUserId = user.Id;
+            exam.CreateUser = user.Name;
+            exam.CreateDate = DateTime.UtcNow;
+
             await _context.Exams.AddAsync(exam);
             await _context.SaveChangesAsync();
         }
