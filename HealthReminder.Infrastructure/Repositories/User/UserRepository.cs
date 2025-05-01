@@ -14,42 +14,23 @@ namespace HealthReminder.Infrastructure.Repositories.User
             _context = context;
         }
 
-        public async Task AddUserAsync(Users user)
+        public async Task Create(Users user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Users> GetUserByIdAsync(Guid id)
+        public async Task<Users> GetById(Guid id)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<Users> GetUserByEmailAsync(string email)
+        public async Task<Users> GetByEmail(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-            if (user == null)
-                throw new KeyNotFoundException("Usuário não encontrado.");
-
-            return user;    
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email); 
         }
 
-        public async Task<Users> GetUserDetailsAsync(Guid id)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-                throw new KeyNotFoundException("Usuário não encontrado.");
-
-            return user;
-        }
-
-        public async Task UpdateUserAsync(Users user)
-        {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteUserAsync(Guid id)
+        public async Task Delete(Guid id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user != null)

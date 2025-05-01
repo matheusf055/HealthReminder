@@ -9,10 +9,10 @@ namespace HealthReminder.Domain.MedicalAppointment.Repositories
 {
     public interface IMedicalAppointmentRepository
     {
-        Task AddMedicalAppointmentAsync(MedicalAppointments medicalAppointment, IUser user);
-        Task<MedicalAppointments> GetMedicalAppointmentByIdAsync(Guid id, Guid userId);
-        Task<List<MedicalAppointments>> GetMedicalAppointmentsByUserIdAsync(Guid userId);
-        Task UpdateMedicalAppointmentAsync(MedicalAppointments medicalAppointment);
-        Task DeleteMedicalAppointmentAsync(Guid id, Guid userId);
+        Task Create(MedicalAppointments medicalAppointment, IUser user);
+        Task<MedicalAppointments> GetById(Guid id, Guid userId);
+        Task<List<MedicalAppointments>> GetAll(Guid userId);
+        Task Update(MedicalAppointments medicalAppointment);
+        Task Delete(Guid id, Guid userId);
     }
 }

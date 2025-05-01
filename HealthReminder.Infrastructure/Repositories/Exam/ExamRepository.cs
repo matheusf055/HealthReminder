@@ -15,7 +15,7 @@ namespace HealthReminder.Infrastructure.Repositories.Exam
             _context = context;
         }
 
-        public async Task AddExamAsync(Exams exam, IUser user)
+        public async Task Create(Exams exam, IUser user)
         {
             exam.CreateUserId = user.Id;
             exam.CreateUser = user.Name;
@@ -25,23 +25,23 @@ namespace HealthReminder.Infrastructure.Repositories.Exam
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Exams> GetExamByIdAsync(Guid id, Guid userId)
+        public async Task<Exams> GetById(Guid id, Guid userId)
         {
             return await _context.Exams.FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
         }
 
-        public async Task<List<Exams>> GetExamsByUserIdAsync(Guid userId)
+        public async Task<List<Exams>> GetAll(Guid userId)
         {
             return await _context.Exams.Where(e => e.UserId == userId).ToListAsync();
         }
 
-        public async Task UpdateExamAsync(Exams exam)
+        public async Task Update(Exams exam)
         {
             _context.Exams.Update(exam);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteExamByIdAsync(Guid id, Guid userId)
+        public async Task Delete(Guid id, Guid userId)
         {
             var exam = await _context.Exams.FirstOrDefaultAsync(e => e.Id == id && e.UserId == userId);
             if (exam != null)
