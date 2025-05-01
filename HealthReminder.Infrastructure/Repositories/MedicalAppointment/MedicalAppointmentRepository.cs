@@ -20,7 +20,7 @@ namespace HealthReminder.Infrastructure.Repositories.MedicalAppointment
             _context = context;
         }
 
-        public async Task AddMedicalAppointmentAsync(MedicalAppointments medicalAppointment, IUser user)
+        public async Task Create(MedicalAppointments medicalAppointment, IUser user)
         {
             medicalAppointment.CreateUserId = user.Id;
             medicalAppointment.CreateUser = user.Name;
@@ -30,14 +30,14 @@ namespace HealthReminder.Infrastructure.Repositories.MedicalAppointment
             await _context.SaveChangesAsync();
         }
 
-        public async Task<MedicalAppointments> GetMedicalAppointmentByIdAsync(Guid id, Guid userId)
+        public async Task<MedicalAppointments> GetById(Guid id, Guid userId)
         {
            return await _context.MedicalAppointments
                 .Include(ma => ma.Exams)
                 .FirstOrDefaultAsync(ma => ma.Id == id && ma.UserId == userId);    
         }
 
-        public async Task<List<MedicalAppointments>> GetMedicalAppointmentsByUserIdAsync(Guid userId)
+        public async Task<List<MedicalAppointments>> GetAll(Guid userId)
         {
             return await _context.MedicalAppointments
                 .Include(ma => ma.Exams)
@@ -45,13 +45,13 @@ namespace HealthReminder.Infrastructure.Repositories.MedicalAppointment
                 .ToListAsync();
         }
 
-        public async Task UpdateMedicalAppointmentAsync(MedicalAppointments medicalAppointment)
+        public async Task Update(MedicalAppointments medicalAppointment)
         {
            _context.MedicalAppointments.Update(medicalAppointment);
            await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteMedicalAppointmentAsync(Guid id, Guid userId)
+        public async Task Delete(Guid id, Guid userId)
         {
             var medicalAppointment = await _context.MedicalAppointments.FirstOrDefaultAsync(ma => ma.Id == id && ma.UserId == userId);
             if (medicalAppointment != null)
