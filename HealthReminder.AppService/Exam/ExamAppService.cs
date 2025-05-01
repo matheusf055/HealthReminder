@@ -27,7 +27,7 @@ namespace HealthReminder.AppService.Exam
 
             var exam = new Exams(command.Name, command.ScheduledDate, command.SeekExamDate, command.UserId, command.MedicalAppointmentId);
 
-            await _examRepository.AddExamAsync(exam, user);
+            await _examRepository.Create(exam, user);
 
             var dto = new ExamDto
             {
@@ -46,7 +46,7 @@ namespace HealthReminder.AppService.Exam
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(examId, userId);
+            var exam = await _examRepository.GetById(examId, userId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
             var dto = new ExamDto
@@ -66,7 +66,7 @@ namespace HealthReminder.AppService.Exam
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exams = await _examRepository.GetExamsByUserIdAsync(userId);
+            var exams = await _examRepository.GetAll(userId);
             var dto = exams.Select(exam => new ExamDto
             {
                 Id = exam.Id,
@@ -84,7 +84,7 @@ namespace HealthReminder.AppService.Exam
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(command.Id, command.UserId);
+            var exam = await _examRepository.GetById(command.Id, command.UserId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
             exam.Name = command.Name;
@@ -92,17 +92,17 @@ namespace HealthReminder.AppService.Exam
             exam.SeekExamDate = command.SeekExamDate;
             exam.MedicalAppointmentId = command.MedicalAppointmentId; 
 
-            await _examRepository.UpdateExamAsync(exam);
+            await _examRepository.Update(exam);
         }
 
         public async Task Delete(Guid userId, Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetExamByIdAsync(examId, userId);
+            var exam = await _examRepository.GetById(examId, userId);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
-            await _examRepository.DeleteExamByIdAsync(examId, userId);
+            await _examRepository.Delete(examId, userId);
         }
     }
 }
