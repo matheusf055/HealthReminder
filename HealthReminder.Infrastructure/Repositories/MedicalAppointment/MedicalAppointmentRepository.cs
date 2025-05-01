@@ -1,4 +1,5 @@
-﻿using HealthReminder.Domain.MedicalAppointments;
+﻿using HealthReminder.Domain.Common;
+using HealthReminder.Domain.MedicalAppointments;
 using HealthReminder.Domain.MedicalAppointments.Repositories;
 using HealthReminder.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +20,12 @@ namespace HealthReminder.Infrastructure.Repositories.MedicalAppointment
             _context = context;
         }
 
-        public async Task AddMedicalAppointmentAsync(MedicalAppointments medicalAppointment)
+        public async Task AddMedicalAppointmentAsync(MedicalAppointments medicalAppointment, IUser user)
         {
+            medicalAppointment.CreateUserId = user.Id;
+            medicalAppointment.CreateUser = user.Name;
+            medicalAppointment.CreateDate = DateTime.UtcNow;
+
             await _context.MedicalAppointments.AddAsync(medicalAppointment);
             await _context.SaveChangesAsync();
         }
