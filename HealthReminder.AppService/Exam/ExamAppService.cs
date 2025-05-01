@@ -20,7 +20,7 @@ namespace HealthReminder.AppService.Exam
             _examRepository = examRepository;
         }
 
-        public async Task<CreateExamDto> AddExamAsync(CreateExamCommand command, IUser user)
+        public async Task<CreateExamDto> Create(CreateExamCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -42,7 +42,7 @@ namespace HealthReminder.AppService.Exam
             return dto;
         }
 
-        public async Task<ExamDto> GetExamByIdAsync(Guid userId, Guid examId, IUser user)
+        public async Task<ExamDto> GetById(Guid userId, Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -60,7 +60,7 @@ namespace HealthReminder.AppService.Exam
             };
         }
 
-        public async Task<List<ExamDto>> GetExamsByUserIdAsync(Guid userId, IUser user)
+        public async Task<List<ExamDto>> GetAll(Guid userId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -77,7 +77,7 @@ namespace HealthReminder.AppService.Exam
             }).ToList();
         }
 
-        public async Task UpdateExamAsync(Guid userId, Guid examId, UpdateExamDto updateExamDto, IUser user)
+        public async Task Update(Guid userId, Guid examId, UpdateExamDto updateExamDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -92,7 +92,7 @@ namespace HealthReminder.AppService.Exam
             await _examRepository.UpdateExamAsync(exam);
         }
 
-        public async Task DeleteExamByIdAsync(Guid userId, Guid examId, IUser user)
+        public async Task Delete(Guid userId, Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 

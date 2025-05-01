@@ -35,7 +35,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddExamAsync([FromRoute] Guid userId, [FromBody] CreateExamCommand command)
         {
-            var result = await _examAppService.AddExamAsync(command, _user);
+            var result = await _examAppService.Create(command, _user);
             return Ok(result);
         }
 
@@ -50,7 +50,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetExamsByUserIdAsync([FromRoute] Guid userId)
         {
-            var exams = await _examAppService.GetExamsByUserIdAsync(userId, _user);
+            var exams = await _examAppService.GetAll(userId, _user);
             return Ok(exams);
         }
 
@@ -67,7 +67,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetExamByIdAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
         {
-            var exam = await _examAppService.GetExamByIdAsync(userId, examId, _user);
+            var exam = await _examAppService.GetById(userId, examId, _user);
             return Ok(exam);
         }
 
@@ -86,7 +86,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId, [FromBody] UpdateExamDto updateExamDto)
         {
-            await _examAppService.UpdateExamAsync(userId, examId, updateExamDto, _user);
+            await _examAppService.Update(userId, examId, updateExamDto, _user);
             return Ok();
         }
 
@@ -103,7 +103,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
         {
-            await _examAppService.DeleteExamByIdAsync(userId, examId, _user);
+            await _examAppService.Delete(userId, examId, _user);
             return NoContent();
         }
     }

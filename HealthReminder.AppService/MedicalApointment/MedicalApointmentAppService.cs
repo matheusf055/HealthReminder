@@ -17,7 +17,7 @@ namespace HealthReminder.AppService.MedicalApointment
             _medicalAppointmentRepository = medicalAppointmentRepository;
         }
 
-        public async Task<CreateMedicalAppointmentDto> AddMedicalAppointmentAsync(CreateMedicalAppointmentCommand command, IUser user)
+        public async Task<CreateMedicalAppointmentDto> Create(CreateMedicalAppointmentCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
             if (command == null) throw new ArgumentNullException(nameof(command));
@@ -38,7 +38,7 @@ namespace HealthReminder.AppService.MedicalApointment
             return dto;
         }
 
-        public async Task<MedicalAppointmentDto> GetMedicalAppointmentByIdAsync(Guid userId, Guid appointmentId, IUser user)
+        public async Task<MedicalAppointmentDto> GetById(Guid userId, Guid appointmentId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -65,7 +65,7 @@ namespace HealthReminder.AppService.MedicalApointment
             };
         }
 
-        public async Task<List<MedicalAppointmentDto>> GetMedicalAppointmentsByUserIdAsync(Guid userId, IUser user)
+        public async Task<List<MedicalAppointmentDto>> GetAll(Guid userId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -91,7 +91,7 @@ namespace HealthReminder.AppService.MedicalApointment
             }).ToList();
         }
 
-        public async Task UpdateMedicalAppointmentAsync(Guid userId, Guid appointmentId, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
+        public async Task Update(Guid userId, Guid appointmentId, UpdateMedicalAppointmentDto updateMedicalAppointmentDto, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
@@ -106,7 +106,7 @@ namespace HealthReminder.AppService.MedicalApointment
             await _medicalAppointmentRepository.UpdateMedicalAppointmentAsync(medicalAppointment);
         }
 
-        public async Task DeleteMedicalAppointmentAsync(Guid userId, Guid appointmentId, IUser user)
+        public async Task Delete(Guid userId, Guid appointmentId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 

@@ -19,12 +19,12 @@ namespace HealthReminder.AppService.Auth
             _jwtTokenProvider = jwtTokenProvider;
         }
 
-        public async Task RegisterAsync(RegisterUserDto registerUserDto)
+        public async Task Register(RegisterUserDto registerUserDto)
         {
             if (registerUserDto == null) throw new ArgumentNullException(nameof(registerUserDto));
 
             var existingUser = await _userRepository.GetUserByEmailAsync(registerUserDto.Email);
-            if (existingUser != null) throw new ArgumentException("Email já registrado");
+            if (existingUser != null) throw new ArgumentException("Usuário já registrado");
 
             var hashedPassword = _passwordHasher.HashPassword(registerUserDto.Password);
 
@@ -32,7 +32,7 @@ namespace HealthReminder.AppService.Auth
             await _userRepository.AddUserAsync(user);
         }
 
-        public async Task<string> LoginAsync(LoginUserDto loginUserDto)
+        public async Task<string> Login(LoginUserDto loginUserDto)
         {
             if (loginUserDto == null) throw new ArgumentNullException(nameof(loginUserDto));
 

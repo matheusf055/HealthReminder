@@ -34,7 +34,7 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserDetails([FromRoute] Guid userId)
         {
-            var user = await _userAppService.GetUserDetails(userId, _user);
+            var user = await _userAppService.GetById(userId, _user);
             return Ok(user);
         }
 
@@ -53,7 +53,7 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateUserAsync([FromRoute] Guid userId, [FromBody] UpdateUserDto updateUserDto)
         {
-            await _userAppService.UpdateUserAsync(updateUserDto, userId, _user);
+            await _userAppService.Update(updateUserDto, userId, _user);
             return Ok("Usuário atualizado com sucesso.");
         }
 
@@ -70,7 +70,7 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid userId)
         {
-            await _userAppService.DeleteUserAsync(userId, _user);
+            await _userAppService.Delete(userId, _user);
             return Ok("Usuário deletado com sucesso.");
         }
     }

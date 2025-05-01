@@ -37,7 +37,7 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AddMedicationAsync([FromBody] CreateMedicationCommand command)
         {
-            var result = await _medicationAppService.AddMedicationAsync(command, _user);
+            var result = await _medicationAppService.Create(command, _user);
             return Ok(result);
         }
 
@@ -54,7 +54,7 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> TakeMedication([FromRoute] Guid userId, [FromRoute] Guid medicationId)
         {
-            await _medicationAppService.TakeMedicationAsync(userId, medicationId, _user);
+            await _medicationAppService.Take(userId, medicationId, _user);
             return Ok();
         }
 
@@ -69,7 +69,7 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetMedicationsByUserIdAsync([FromRoute] Guid userId)
         {
-            var medications = await _medicationAppService.GetMedicationsByUserIdAsync(userId, _user);
+            var medications = await _medicationAppService.GetAll(userId, _user);
             return Ok(medications);
         }
 
@@ -86,7 +86,7 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetMedicationByIdAsync([FromRoute] Guid userId, [FromRoute] Guid medicationId)
         {
-            var medication = await _medicationAppService.GetMedicationByIdAsync(userId, medicationId, _user);
+            var medication = await _medicationAppService.GetById(userId, medicationId, _user);
             return Ok(medication);
         }
 
@@ -107,7 +107,7 @@ namespace HealthReminder.Api.Controllers.Medication
             [FromRoute] Guid medicationId,
             [FromBody] UpdateMedicationDto updateMedicationDto)
         {
-            await _medicationAppService.UpdateMedicationAsync(userId, medicationId, updateMedicationDto, _user);
+            await _medicationAppService.Update(userId, medicationId, updateMedicationDto, _user);
             return Ok();
         }
 
@@ -126,7 +126,7 @@ namespace HealthReminder.Api.Controllers.Medication
             [FromRoute] Guid userId,
             [FromRoute] Guid medicationId)
         {
-            await _medicationAppService.DeleteMedicationAsync(userId, medicationId, _user);
+            await _medicationAppService.Delete(userId, medicationId, _user);
             return NoContent();
         }
     }
