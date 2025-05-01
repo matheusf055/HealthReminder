@@ -1,4 +1,5 @@
-﻿using HealthReminder.AppService.Exam.DTOs;
+﻿using HealthReminder.AppService.Exam.Commands;
+using HealthReminder.AppService.Exam.DTOs;
 using HealthReminder.AppService.Interfaces.Exam;
 using HealthReminder.Domain.Common;
 using HealthReminder.Domain.Exams;
@@ -19,23 +20,26 @@ namespace HealthReminder.AppService.Exam
             _examRepository = examRepository;
         }
 
-        public async Task AddExamAsync(Guid userId, CreateExamDto createExamDto, IUser user)
+        public async Task<CreateExamDto> AddExamAsync(CreateExamCommand command, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (createExamDto == null) throw new ArgumentNullException(nameof(createExamDto));
+            if (command == null) throw new ArgumentNullException(nameof(command));
 
-            var exam = new Exams
-                (
-                    createExamDto.Name,
-                    createExamDto.ScheduledDate,
-                    createExamDto.SeekExamDate,
-                    userId,
-                    createExamDto.MedicalAppointmentId,
-                    user.Id,
-                    user.Name
-                );
+            var exam = new Exams(command.Name, command.ScheduledDate, command.SeekExamDate, command.UserId, command.MedicalAppointmentId);
 
-            await _examRepository.AddExamAsync(exam);
+            await _examRepository.AddExamAsync(exam, user);
+
+            var dto = new CreateExamDto
+            {
+                Id = exam.Id,
+                Name = exam.Name,
+                ScheduledDate = exam.ScheduledDate,
+                SeekExamDate = exam.SeekExamDate,
+                UserId = exam.UserId,
+                MedicalAppointmentId = exam.MedicalAppointmentId
+            };
+
+            return dto;
         }
 
         public async Task<ExamDto> GetExamByIdAsync(Guid userId, Guid examId, IUser user)
