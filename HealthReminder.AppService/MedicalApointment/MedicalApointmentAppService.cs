@@ -96,7 +96,7 @@ namespace HealthReminder.AppService.MedicalApointment
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetById(command.AppointmentId, command.UserId);
+            var medicalAppointment = await _medicalAppointmentRepository.GetById(command.Id, command.UserId);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
             medicalAppointment.DoctorName = command.DoctorName;

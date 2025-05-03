@@ -1,8 +1,8 @@
 ﻿using HealthReminder.AppService.Interfaces.Auth;
 using HealthReminder.AppService.Auth.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using HealthReminder.Domain.Common.Security;
 using Swashbuckle.AspNetCore.Annotations;
+using HealthReminder.AppService.Auth.Commands;
 
 namespace HealthReminder.Api.Controllers.Auth
 {
@@ -26,10 +26,10 @@ namespace HealthReminder.Api.Controllers.Auth
         [SwaggerResponse(400, "Dados inválidos fornecidos")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Register(RegisterUserDto registerUserDto)
+        public async Task<IActionResult> Register(RegisterUserCommand command)
         {
-            await _authAppService.Register(registerUserDto);
-            return Ok("Usuário registrado com sucesso.");
+            await _authAppService.Register(command);
+            return Ok();
         }
 
         [HttpPost("login")]
