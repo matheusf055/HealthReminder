@@ -3,6 +3,7 @@ using HealthReminder.AppService.Auth.DTOs;
 using HealthReminder.Domain.Common.Security;
 using HealthReminder.Domain.User.Repositories;
 using HealthReminder.Domain.User;
+using HealthReminder.AppService.Auth.Commands;
 
 namespace HealthReminder.AppService.Auth
 {
@@ -19,16 +20,18 @@ namespace HealthReminder.AppService.Auth
             _jwtTokenProvider = jwtTokenProvider;
         }
 
-        public async Task Register(RegisterUserDto registerUserDto)
+        public async Task Register(RegisterUserCommand command)
         {
-            if (registerUserDto == null) throw new ArgumentNullException(nameof(registerUserDto));
+            if (command == null) throw new ArgumentNullException(nameof(command));
 
-            var existingUser = await _userRepository.GetByEmail(registerUserDto.Email);
+            var existingUser = await _userRepository.GetByEmail(command.Email);
             if (existingUser != null) throw new ArgumentException("Usuário já registrado");
 
-            var hashedPassword = _passwordHasher.HashPassword(registerUserDto.Password);
+            if (command.Password != command.ConfirmPassword) throw new ArgumentException("As senhas não coincidem");
 
-            var user = new Users(registerUserDto.Name, registerUserDto.Email, hashedPassword);
+            var hashedPassword = _passwordHasher.HashPassword(command.Password);
+
+            var user = new Users(command.Name, command.Email, hashedPassword);
             await _userRepository.Create(user);
         }
 
