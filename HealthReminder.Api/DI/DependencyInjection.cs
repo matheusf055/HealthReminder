@@ -32,7 +32,7 @@ namespace HealthReminder.Api.DI
         public static void Configure(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<HealthReminderDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUserAppService, UserAppService>();
             services.AddScoped<IUserRepository, UserRepository>();
