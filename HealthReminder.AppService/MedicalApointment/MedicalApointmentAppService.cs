@@ -39,11 +39,11 @@ namespace HealthReminder.AppService.MedicalApointment
             return dto;
         }
 
-        public async Task<MedicalAppointmentDto> GetById(Guid userId, Guid appointmentId, IUser user)
+        public async Task<MedicalAppointmentDto> GetById(Guid appointmentId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetById(appointmentId, userId);
+            var medicalAppointment = await _medicalAppointmentRepository.GetById(appointmentId, user.Id);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
             return new MedicalAppointmentDto
@@ -66,11 +66,11 @@ namespace HealthReminder.AppService.MedicalApointment
             };
         }
 
-        public async Task<List<MedicalAppointmentDto>> GetAll(Guid userId, IUser user)
+        public async Task<List<MedicalAppointmentDto>> GetAll(IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetAll(userId);
+            var medicalAppointment = await _medicalAppointmentRepository.GetAll(user.Id);
 
             return medicalAppointment.Select(x => new MedicalAppointmentDto
             {
@@ -107,14 +107,14 @@ namespace HealthReminder.AppService.MedicalApointment
             await _medicalAppointmentRepository.Update(medicalAppointment);
         }
 
-        public async Task Delete(Guid userId, Guid appointmentId, IUser user)
+        public async Task Delete(Guid appointmentId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medicalAppointment = await _medicalAppointmentRepository.GetById(appointmentId, userId);
+            var medicalAppointment = await _medicalAppointmentRepository.GetById(appointmentId, user.Id);
             if (medicalAppointment == null) throw new KeyNotFoundException("Consulta médica não encontrada.");
 
-            await _medicalAppointmentRepository.Delete(appointmentId, userId);
+            await _medicalAppointmentRepository.Delete(appointmentId, user.Id);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
 {
     [ApiController]
     [Authorize]
-    [Route("api/{userId}/appointments")]
+    [Route("api/appointments")]
     public class MedicalAppointmentController : ControllerBase
     {
         private readonly IMedicalAppointmentAppService _medicalAppointmentAppService;
@@ -33,7 +33,7 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddMedicalAppointmentAsync([FromBody] CreateMedicalAppointmentCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateMedicalAppointmentCommand command)
         {
             var result = await _medicalAppointmentAppService.Create(command, _user);
             return Ok(result);
@@ -48,9 +48,9 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [SwaggerResponse(401, "Não autorizado")]
         [ProducesResponseType(typeof(IEnumerable<MedicalAppointmentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetAllByUser([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll()
         {
-            var medicalAppointments = await _medicalAppointmentAppService.GetAll(userId, _user);
+            var medicalAppointments = await _medicalAppointmentAppService.GetAll(_user);
             return Ok(medicalAppointments);
         }
 
@@ -65,9 +65,9 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [ProducesResponseType(typeof(MedicalAppointmentDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetMedicalAppointmentByIdAsync([FromRoute] Guid userId, [FromRoute] Guid appointmentId)
+        public async Task<IActionResult> GetById([FromRoute] Guid appointmentId)
         {
-            var medicalAppointment = await _medicalAppointmentAppService.GetById(userId, appointmentId, _user);
+            var medicalAppointment = await _medicalAppointmentAppService.GetById(appointmentId, _user);
             return Ok(medicalAppointment);
         }
 
@@ -84,7 +84,7 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateMedicalAppointmentAsync([FromBody] UpdateMedicalAppointmentCommand command)
+        public async Task<IActionResult> Update([FromBody] UpdateMedicalAppointmentCommand command)
         {
             await _medicalAppointmentAppService.Update(command, _user);
             return Ok();
@@ -101,9 +101,9 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteMedicalAppointmentAsync([FromRoute] Guid userId, [FromRoute] Guid appointmentId)
+        public async Task<IActionResult> Delete([FromRoute] Guid appointmentId)
         {
-            await _medicalAppointmentAppService.Delete(userId, appointmentId, _user);
+            await _medicalAppointmentAppService.Delete(appointmentId, _user);
             return NoContent();
         }
     }

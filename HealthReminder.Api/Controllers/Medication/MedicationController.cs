@@ -12,7 +12,7 @@ namespace HealthReminder.Api.Controllers.Medication
 {
     [ApiController]
     [Authorize]
-    [Route("api/{userId}/medications")]
+    [Route("api/medications")]
     public class MedicationController : ControllerBase
     {
         private readonly IMedicationAppService _medicationAppService;
@@ -35,7 +35,7 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddMedicationAsync([FromBody] CreateMedicationCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateMedicationCommand command)
         {
             var result = await _medicationAppService.Create(command, _user);
             return Ok(result);
@@ -52,9 +52,9 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> TakeMedication([FromRoute] Guid userId, [FromRoute] Guid medicationId)
+        public async Task<IActionResult> TakeMedication([FromRoute] Guid medicationId)
         {
-            await _medicationAppService.Take(userId, medicationId, _user);
+            await _medicationAppService.Take(medicationId, _user);
             return Ok();
         }
 
@@ -67,9 +67,9 @@ namespace HealthReminder.Api.Controllers.Medication
         [SwaggerResponse(401, "Não autorizado")]
         [ProducesResponseType(typeof(IEnumerable<MedicationDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetMedicationsByUserIdAsync([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll()
         {
-            var medications = await _medicationAppService.GetAll(userId, _user);
+            var medications = await _medicationAppService.GetAll(_user);
             return Ok(medications);
         }
 
@@ -84,9 +84,9 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(MedicationDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetMedicationByIdAsync([FromRoute] Guid userId, [FromRoute] Guid medicationId)
+        public async Task<IActionResult> GetById([FromRoute] Guid medicationId)
         {
-            var medication = await _medicationAppService.GetById(userId, medicationId, _user);
+            var medication = await _medicationAppService.GetById(medicationId, _user);
             return Ok(medication);
         }
 
@@ -103,8 +103,9 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateMedicationAsync(UpdateMedicationCommand command)
+        public async Task<IActionResult> Update([FromRoute] Guid medicationId, [FromBody] UpdateMedicationCommand command)
         {
+            command.Id = medicationId;
             await _medicationAppService.Update(command, _user);
             return Ok();
         }
@@ -120,11 +121,9 @@ namespace HealthReminder.Api.Controllers.Medication
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteMedicationAsync(
-            [FromRoute] Guid userId,
-            [FromRoute] Guid medicationId)
+        public async Task<IActionResult> Delete([FromRoute] Guid medicationId)
         {
-            await _medicationAppService.Delete(userId, medicationId, _user);
+            await _medicationAppService.Delete(medicationId, _user);
             return NoContent();
         }
     }

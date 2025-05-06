@@ -43,22 +43,22 @@ namespace HealthReminder.AppService.Medication
             };
         }
 
-        public async Task Take(Guid userId, Guid medicationId, IUser user)
+        public async Task Take(Guid medicationId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medication = await _medicationRepository.GetById(medicationId, userId);
+            var medication = await _medicationRepository.GetById(medicationId, user.Id);
             if (medication == null) throw new KeyNotFoundException("Medicação não encontrada.");
 
             medication.TakePill();
             await _medicationRepository.Update(medication);
         }
 
-        public async Task<MedicationDto> GetById(Guid userId, Guid medicationId, IUser user)
+        public async Task<MedicationDto> GetById(Guid medicationId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medication = await _medicationRepository.GetById(medicationId, userId);
+            var medication = await _medicationRepository.GetById(medicationId, user.Id);
             if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
             return new MedicationDto
@@ -74,11 +74,11 @@ namespace HealthReminder.AppService.Medication
             };
         }
 
-        public async Task<List<MedicationDto>> GetAll(Guid userId, IUser user)
+        public async Task<List<MedicationDto>> GetAll(IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medications = await _medicationRepository.GetAll(userId);
+            var medications = await _medicationRepository.GetAll(user.Id);
 
             return medications.Select(medication => new MedicationDto
             {
@@ -109,14 +109,14 @@ namespace HealthReminder.AppService.Medication
             await _medicationRepository.Update(medication);
         }
 
-        public async Task Delete(Guid userId, Guid medicationId, IUser user)
+        public async Task Delete(Guid medicationId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var medication = await _medicationRepository.GetById(medicationId, userId);
+            var medication = await _medicationRepository.GetById(medicationId, user.Id);
             if (medication == null) throw new KeyNotFoundException("Medicação não encontrada");
 
-            await _medicationRepository.Delete(medicationId, userId);
+            await _medicationRepository.Delete(medicationId, user.Id);
         }
     }
 }
