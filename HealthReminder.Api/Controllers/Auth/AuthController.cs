@@ -19,11 +19,11 @@ namespace HealthReminder.Api.Controllers.Auth
 
         [HttpPost("register")]
         [SwaggerOperation(
-            Summary = "Registra um novo usuário",
-            Description = "Cria uma nova conta de usuário no sistema"
+            Summary = "Registrar novo usuário",
+            Description = "Cria uma nova conta de usuário no sistema com as informações fornecidas"
         )]
-        [SwaggerResponse(200, "Usuário registrado com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos fornecidos")]
+        [SwaggerResponse(200, "Usuário registrado com sucesso", typeof(string))]
+        [SwaggerResponse(400, "Requisição inválida - Dados de registro inválidos ou email já em uso")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register(RegisterUserCommand command)
@@ -34,11 +34,11 @@ namespace HealthReminder.Api.Controllers.Auth
 
         [HttpPost("login")]
         [SwaggerOperation(
-            Summary = "Autentica um usuário",
-            Description = "Realiza o login do usuário e retorna um token JWT"
+            Summary = "Realizar login do usuário",
+            Description = "Autentica o usuário com email e senha, retornando um token JWT para acesso ao sistema"
         )]
-        [SwaggerResponse(200, "Login realizado com sucesso", typeof(object))]
-        [SwaggerResponse(401, "Credenciais inválidas")]
+        [SwaggerResponse(200, "Login realizado com sucesso - Retorna o token de acesso", typeof(object))]
+        [SwaggerResponse(401, "Não autorizado - Credenciais inválidas")]
         [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login(LoginUserDto loginUserDto)

@@ -24,15 +24,15 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
 
         [HttpPost]
         [SwaggerOperation(
-            Summary = "Adiciona uma nova consulta médica",
-            Description = "Cria um novo registro de consulta médica para o usuário"
+            Summary = "Criar nova consulta médica",
+            Description = "Agenda uma nova consulta médica no sistema"
         )]
-        [SwaggerResponse(200, "Consulta criada com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos fornecidos")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(201, "Consulta médica criada com sucesso", typeof(MedicalAppointmentDto))]
+        [SwaggerResponse(400, "Requisição inválida - Dados da consulta inválidos")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [ProducesResponseType(typeof(MedicalAppointmentDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] CreateMedicalAppointmentCommand command)
         {
             var result = await _medicalAppointmentAppService.Create(command, _user);
@@ -41,13 +41,13 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
 
         [HttpGet]
         [SwaggerOperation(
-            Summary = "Lista todas as consultas médicas do usuário",
-            Description = "Retorna todas as consultas médicas cadastradas para o usuário"
+            Summary = "Listar consultas médicas",
+            Description = "Retorna todas as consultas médicas do usuário"
         )]
-        [SwaggerResponse(200, "Lista de consultas retornada com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
+        [SwaggerResponse(200, "Lista de consultas médicas recuperada com sucesso", typeof(IEnumerable<MedicalAppointmentDto>))]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
         [ProducesResponseType(typeof(IEnumerable<MedicalAppointmentDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetAll()
         {
             var medicalAppointments = await _medicalAppointmentAppService.GetAll(_user);
@@ -56,34 +56,34 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
 
         [HttpGet("{appointmentId}")]
         [SwaggerOperation(
-            Summary = "Obtém detalhes de uma consulta médica específica",
-            Description = "Retorna os detalhes de uma consulta médica específica pelo ID"
+            Summary = "Obter consulta médica por ID",
+            Description = "Retorna os detalhes de uma consulta médica específica"
         )]
-        [SwaggerResponse(200, "Detalhes da consulta retornados com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Consulta não encontrada")]
+        [SwaggerResponse(200, "Consulta médica encontrada com sucesso", typeof(MedicalAppointmentDto))]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Consulta médica não existe")]
         [ProducesResponseType(typeof(MedicalAppointmentDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([FromRoute] Guid appointmentId)
         {
             var medicalAppointment = await _medicalAppointmentAppService.GetById(appointmentId, _user);
             return Ok(medicalAppointment);
         }
 
-        [HttpPut("{appointmentId}")]
+        [HttpPut]
         [SwaggerOperation(
-            Summary = "Atualiza uma consulta médica",
-            Description = "Atualiza os dados de uma consulta médica existente"
+            Summary = "Atualizar consulta médica",
+            Description = "Atualiza as informações de uma consulta médica existente"
         )]
-        [SwaggerResponse(200, "Consulta atualizada com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos fornecidos")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Consulta não encontrada")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(200, "Consulta médica atualizada com sucesso", typeof(MedicalAppointmentDto))]
+        [SwaggerResponse(400, "Requisição inválida - Dados da consulta inválidos")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Consulta médica não existe")]
+        [ProducesResponseType(typeof(MedicalAppointmentDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update([FromBody] UpdateMedicalAppointmentCommand command)
         {
             await _medicalAppointmentAppService.Update(command, _user);
@@ -92,15 +92,15 @@ namespace HealthReminder.Api.Controllers.MedicalAppointment
 
         [HttpDelete("{appointmentId}")]
         [SwaggerOperation(
-            Summary = "Remove uma consulta médica",
-            Description = "Deleta uma consulta médica do sistema"
+            Summary = "Excluir consulta médica",
+            Description = "Remove uma consulta médica do sistema"
         )]
-        [SwaggerResponse(200, "Consulta deletada com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Consulta não encontrada")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(204, "Consulta médica excluída com sucesso")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Consulta médica não existe")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid appointmentId)
         {
             await _medicalAppointmentAppService.Delete(appointmentId, _user);

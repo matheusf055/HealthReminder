@@ -26,15 +26,15 @@ namespace HealthReminder.Api.Controllers.Medication
 
         [HttpPost]
         [SwaggerOperation(
-            Summary = "Adiciona uma nova medicação",
-            Description = "Cria um novo registro de medicação para o usuário"
+            Summary = "Criar novo medicamento",
+            Description = "Cadastra um novo medicamento no sistema"
         )]
-        [SwaggerResponse(200, "Medicação criada com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos fornecidos")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(201, "Medicamento criado com sucesso", typeof(MedicationDto))]
+        [SwaggerResponse(400, "Requisição inválida - Dados do medicamento inválidos")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [ProducesResponseType(typeof(MedicationDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Create([FromBody] CreateMedicationCommand command)
         {
             var result = await _medicationAppService.Create(command, _user);
@@ -60,13 +60,13 @@ namespace HealthReminder.Api.Controllers.Medication
 
         [HttpGet]
         [SwaggerOperation(
-            Summary = "Lista todas as medicações do usuário",
-            Description = "Retorna todas as medicações cadastradas para o usuário"
+            Summary = "Listar medicamentos",
+            Description = "Retorna a lista de todos os medicamentos cadastrados para o usuário"
         )]
-        [SwaggerResponse(200, "Lista de medicações retornada com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
+        [SwaggerResponse(200, "Lista de medicamentos recuperada com sucesso", typeof(IEnumerable<MedicationDto>))]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
         [ProducesResponseType(typeof(IEnumerable<MedicationDto>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GetAll()
         {
             var medications = await _medicationAppService.GetAll(_user);
@@ -75,52 +75,51 @@ namespace HealthReminder.Api.Controllers.Medication
 
         [HttpGet("{medicationId}")]
         [SwaggerOperation(
-            Summary = "Obtém detalhes de uma medicação específica",
-            Description = "Retorna os detalhes de uma medicação específica pelo ID"
+            Summary = "Obter medicamento por ID",
+            Description = "Retorna os detalhes de um medicamento específico"
         )]
-        [SwaggerResponse(200, "Detalhes da medicação retornados com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Medicação não encontrada")]
+        [SwaggerResponse(200, "Medicamento encontrado com sucesso", typeof(MedicationDto))]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Medicamento não existe")]
         [ProducesResponseType(typeof(MedicationDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById([FromRoute] Guid medicationId)
         {
             var medication = await _medicationAppService.GetById(medicationId, _user);
             return Ok(medication);
         }
 
-        [HttpPut("{medicationId}")]
+        [HttpPut]
         [SwaggerOperation(
-            Summary = "Atualiza uma medicação",
-            Description = "Atualiza os dados de uma medicação existente"
+            Summary = "Atualizar medicamento",
+            Description = "Atualiza as informações de um medicamento existente"
         )]
-        [SwaggerResponse(200, "Medicação atualizada com sucesso")]
-        [SwaggerResponse(400, "Dados inválidos fornecidos")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Medicação não encontrada")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update([FromRoute] Guid medicationId, [FromBody] UpdateMedicationCommand command)
+        [SwaggerResponse(200, "Medicamento atualizado com sucesso", typeof(MedicationDto))]
+        [SwaggerResponse(400, "Requisição inválida - Dados do medicamento inválidos")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Medicamento não existe")]
+        [ProducesResponseType(typeof(MedicationDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Update([FromBody] UpdateMedicationCommand command)
         {
-            command.Id = medicationId;
             await _medicationAppService.Update(command, _user);
             return Ok();
         }
 
         [HttpDelete("{medicationId}")]
         [SwaggerOperation(
-            Summary = "Remove uma medicação",
-            Description = "Deleta uma medicação do sistema"
+            Summary = "Excluir medicamento",
+            Description = "Remove um medicamento do sistema"
         )]
-        [SwaggerResponse(200, "Medicação deletada com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Medicação não encontrada")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(204, "Medicamento excluído com sucesso")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Medicamento não existe")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete([FromRoute] Guid medicationId)
         {
             await _medicationAppService.Delete(medicationId, _user);
