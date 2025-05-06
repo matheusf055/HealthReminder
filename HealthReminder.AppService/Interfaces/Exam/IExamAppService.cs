@@ -12,9 +12,9 @@ namespace HealthReminder.AppService.Interfaces.Exam
     public interface IExamAppService
     {
         Task<ExamDto> Create(CreateExamCommand command, IUser user);
-        Task<ExamDto> GetById(Guid userId, Guid examId, IUser user);
-        Task<List<ExamDto>> GetAll(Guid userId, IUser user);
+        Task<ExamDto> GetById(Guid examId, IUser user);
+        Task<List<ExamDto>> GetAll(IUser user);
         Task Update(UpdateExamCommand command, IUser user);
-        Task Delete(Guid userId, Guid examId, IUser user);
+        Task Delete(Guid examId, IUser user);
     }
 }

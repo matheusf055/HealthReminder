@@ -10,7 +10,7 @@ namespace HealthReminder.Api.Controllers.Exam
 {
     [ApiController]
     [Authorize]
-    [Route("api/{userId}/exams")]
+    [Route("api/exams")]
     public class ExamController : ControllerBase
     {
         private readonly IExamAppService _examAppService;
@@ -33,7 +33,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AddExamAsync([FromRoute] Guid userId, [FromBody] CreateExamCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateExamCommand command)
         {
             var result = await _examAppService.Create(command, _user);
             return Ok(result);
@@ -48,9 +48,9 @@ namespace HealthReminder.Api.Controllers.Exam
         [SwaggerResponse(401, "Não autorizado")]
         [ProducesResponseType(typeof(IEnumerable<ExamDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> GetExamsByUserIdAsync([FromRoute] Guid userId)
+        public async Task<IActionResult> GetAll()
         {
-            var exams = await _examAppService.GetAll(userId, _user);
+            var exams = await _examAppService.GetAll(_user);
             return Ok(exams);
         }
 
@@ -65,9 +65,9 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(ExamDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetExamByIdAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
+        public async Task<IActionResult> GetById([FromRoute] Guid examId)
         {
-            var exam = await _examAppService.GetById(userId, examId, _user);
+            var exam = await _examAppService.GetById(examId, _user);
             return Ok(exam);
         }
 
@@ -84,7 +84,7 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateExamAsync(UpdateExamCommand command)
+        public async Task<IActionResult> Update(UpdateExamCommand command)
         {
             await _examAppService.Update(command, _user);
             return Ok();
@@ -101,9 +101,9 @@ namespace HealthReminder.Api.Controllers.Exam
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteExamAsync([FromRoute] Guid userId, [FromRoute] Guid examId)
+        public async Task<IActionResult> Delete([FromRoute] Guid examId)
         {
-            await _examAppService.Delete(userId, examId, _user);
+            await _examAppService.Delete(examId, _user);
             return NoContent();
         }
     }

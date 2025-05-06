@@ -32,7 +32,7 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserDetails([FromRoute] Guid userId)
+        public async Task<IActionResult> GetById([FromRoute] Guid userId)
         {
             var user = await _userAppService.GetById(userId, _user);
             return Ok(user);
@@ -49,7 +49,7 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid userId)
+        public async Task<IActionResult> Delete([FromRoute] Guid userId)
         {
             await _userAppService.Delete(userId, _user);
             return Ok("Usuário deletado com sucesso.");

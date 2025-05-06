@@ -8,10 +8,10 @@ namespace HealthReminder.AppService.Interfaces.Medication
     public interface IMedicationAppService
     {
         Task<MedicationDto> Create(CreateMedicationCommand command, IUser user);
-        Task Take(Guid userId, Guid medicationId, IUser user);
-        Task<MedicationDto> GetById(Guid userId, Guid medicationId, IUser user);
-        Task<List<MedicationDto>> GetAll(Guid userId, IUser user);
+        Task Take(Guid medicationId, IUser user);
+        Task<MedicationDto> GetById(Guid medicationId, IUser user);
+        Task<List<MedicationDto>> GetAll(IUser user);
         Task Update(UpdateMedicationCommand command, IUser user);
-        Task Delete(Guid userId, Guid medicationId, IUser user);
+        Task Delete(Guid medicationId, IUser user);
     }
 }

@@ -42,11 +42,11 @@ namespace HealthReminder.AppService.Exam
             return dto;
         }
 
-        public async Task<ExamDto> GetById(Guid userId, Guid examId, IUser user)
+        public async Task<ExamDto> GetById(Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetById(examId, userId);
+            var exam = await _examRepository.GetById(examId, user.Id);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
             var dto = new ExamDto
@@ -62,11 +62,11 @@ namespace HealthReminder.AppService.Exam
             return dto;
         }
 
-        public async Task<List<ExamDto>> GetAll(Guid userId, IUser user)
+        public async Task<List<ExamDto>> GetAll(IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exams = await _examRepository.GetAll(userId);
+            var exams = await _examRepository.GetAll(user.Id);
             var dto = exams.Select(exam => new ExamDto
             {
                 Id = exam.Id,
@@ -95,14 +95,14 @@ namespace HealthReminder.AppService.Exam
             await _examRepository.Update(exam);
         }
 
-        public async Task Delete(Guid userId, Guid examId, IUser user)
+        public async Task Delete(Guid examId, IUser user)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            var exam = await _examRepository.GetById(examId, userId);
+            var exam = await _examRepository.GetById(examId, user.Id);
             if (exam == null) throw new KeyNotFoundException("Exame não encontrado.");
 
-            await _examRepository.Delete(examId, userId);
+            await _examRepository.Delete(examId, user.Id);
         }
     }
 }
