@@ -21,36 +21,38 @@ namespace HealthReminder.Api.Controllers.User
             _user = user;
         }
 
+        [HttpGet]
         [SwaggerOperation(
-            Summary = "Obtém detalhes do usuário",
-            Description = "Retorna os detalhes de um usuário específico pelo ID"
+            Summary = "Obter usuário por ID",
+            Description = "Retorna os dados de um usuário específico"
         )]
-        [SwaggerResponse(200, "Detalhes do usuário retornados com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Usuário não encontrado")]
+        [SwaggerResponse(200, "Usuário encontrado com sucesso", typeof(UserDto))]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Usuário não existe")]
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById()
         {
             var user = await _userAppService.GetById(_user);
             return Ok(user);
         }
 
+        [HttpDelete]
         [SwaggerOperation(
-            Summary = "Remove um usuário",
-            Description = "Deleta um usuário do sistema"
+            Summary = "Excluir consulta médica",
+            Description = "Remove uma consulta médica do sistema"
         )]
-        [SwaggerResponse(200, "Usuário deletado com sucesso")]
-        [SwaggerResponse(401, "Não autorizado")]
-        [SwaggerResponse(404, "Usuário não encontrado")]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
+        [SwaggerResponse(204, "Consulta médica excluída com sucesso")]
+        [SwaggerResponse(401, "Não autorizado - Usuário não autenticado")]
+        [SwaggerResponse(404, "Não encontrado - Consulta médica não existe")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete()
         {
             await _userAppService.Delete(_user);
-            return Ok();
+            return NoContent();
         }
     }
 }
