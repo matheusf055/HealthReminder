@@ -21,7 +21,6 @@ namespace HealthReminder.Api.Controllers.User
             _user = user;
         }
 
-        [HttpGet("{userId}")]
         [SwaggerOperation(
             Summary = "Obtém detalhes do usuário",
             Description = "Retorna os detalhes de um usuário específico pelo ID"
@@ -32,13 +31,12 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById([FromRoute] Guid userId)
+        public async Task<IActionResult> GetById()
         {
-            var user = await _userAppService.GetById(userId, _user);
+            var user = await _userAppService.GetById(_user);
             return Ok(user);
         }
 
-        [HttpDelete("{userId}")]
         [SwaggerOperation(
             Summary = "Remove um usuário",
             Description = "Deleta um usuário do sistema"
@@ -49,10 +47,10 @@ namespace HealthReminder.Api.Controllers.User
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete([FromRoute] Guid userId)
+        public async Task<IActionResult> Delete()
         {
-            await _userAppService.Delete(userId, _user);
-            return Ok("Usuário deletado com sucesso.");
+            await _userAppService.Delete(_user);
+            return Ok();
         }
     }
 }
